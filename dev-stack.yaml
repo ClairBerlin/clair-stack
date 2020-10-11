@@ -1,0 +1,56 @@
+version: '3.8'
+
+services: 
+    
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=managairdb_dev
+      - POSTGRES_USER=managair_dev
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - type: volume
+        source: managair-data
+        target: /var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=uli.schuster@mailworks.org
+      - PGADMIN_DEFAULT_PASSWORD=schuster
+    ports:
+      # For the application's endpoints
+      - target: 80
+        published: 8889
+    depends_on:
+      - db 
+  
+  managair_server:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8888
+    container_name: managair_server
+    environment:
+      - DATABASE_URL
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Mount the local source code folder for quick iterations.
+      # See: https://www.docker.com/blog/containerized-python-development-part-3/
+      - type: bind
+        source: .
+        target: /code
+    ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 8888
+      # To attach to the debugger
+      - target: 3000
+        published: 3000
+    depends_on:
+      - db
+    env_file:
+      - ./dev.env
+
+volumes:
+    managair-data:
+      external: true
