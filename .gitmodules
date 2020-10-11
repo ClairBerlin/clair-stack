@@ -1,0 +1,3 @@
+[submodule "managair"]
+	path = managair
+	url = https://github.com/ClAirBerlin/managair.git

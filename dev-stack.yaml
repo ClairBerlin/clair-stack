@@ -16,8 +16,8 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=uli.schuster@mailworks.org
-      - PGADMIN_DEFAULT_PASSWORD=schuster
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       # For the application's endpoints
       - target: 80
@@ -26,7 +26,7 @@ services:
       - db 
   
   managair_server:
-    build: .
+    build: ./managair/
     command: python manage.py runserver 0.0.0.0:8888
     container_name: managair_server
     environment:
@@ -37,7 +37,7 @@ services:
       # Mount the local source code folder for quick iterations.
       # See: https://www.docker.com/blog/containerized-python-development-part-3/
       - type: bind
-        source: .
+        source: ./managair/
         target: /code
     ports:
       # For the application's endpoints
