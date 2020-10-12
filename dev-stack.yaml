@@ -40,6 +40,10 @@ services:
         published: 3000
     env_file:
       - ./managair_dev.env
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager # For bind-mounts on swarm to work
     
   ingestair_server:
     environment:

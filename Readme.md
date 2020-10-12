@@ -18,11 +18,13 @@ To set up the Clair backend for development on your local machine, proceed as fo
 2. Clone the present repository onto your local machine. Make sure to include all git submodules. In the following, we assume that the _clair_backend_ repository is available at `<home>/codebase/clair_backend`. Change into this project root folder.
 3. A default user and password for the DBMS is set in the compose file `dev-stack.yaml` via the environment variables `POSTGRES_USER` and `POSTGRES_PASSWORD`. Change them if you want to. Similarly, the default user (`PGADMIN_DEFAULT_EMAIL`) and password (`PGADMIN_DEFAULT_PASSWORD`) for logging into `pgAdmin` can be changed here.
 4. Create the [named volume](https://docs.docker.com/storage/volumes/) to store the database: `docker volume create managair-data`
-5. Run `docker-compose -f dev-stack.yaml up -d --build` to get started.
+5. Run `docker-compose -f clair_base-stack.yaml -f dev-stack.yaml up -d` to get started.
 
-The entire backend stack will launch in DEVELOPMENT mode. Pending database migrations will be executed automatically.
+The entire backend stack will launch in DEVELOPMENT mode. Pending database migrations will be executed automatically. Note that we are layering two compose files to describe our stack: `clair_base-stack.yaml` contains the general setup that is valid for any daployment environment, while `dev-stack.yaml` adds development-specific stuff on top.
 
 There is a test dataset available that you can use to get started. To import it, execute `./managair/dev_utils/import_fixtures.sh`
+
+The entire stack can be run on a _docker swarm_ as well. Use `docker stack deploy -c clair_base-stack.yaml -c dev-stack.yaml`.
 
 ## Development tasks
 
