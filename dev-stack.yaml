@@ -49,7 +49,25 @@ services:
     depends_on:
       - db
     env_file:
-      - ./dev.env
+      - ./managair_dev.env
+    
+  ingestair_server:
+    # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
+    build: ./managair/
+    command: python manage.py runserver 0.0.0.0:8888
+    container_name: ingestair_server
+    environment:
+      - DATABASE_URL
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1  
+    ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 5555
+    depends_on:
+      - db
+    env_file:
+      - ./ingestair_dev.env
 
 volumes:
     managair-data:
