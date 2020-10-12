@@ -6,9 +6,7 @@ Our goal with the present infrastructure setup is to minimize the difference bet
 
 ## Development setup
 
-The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally via `docker-compose`.
-
-_TODO: Describe Docker Swarm setup._
+The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally via `docker-compose`, or on a docker swarm via `docker stack deploy`.
 
 ### Preparing for first launch
 
