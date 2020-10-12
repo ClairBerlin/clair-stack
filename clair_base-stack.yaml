@@ -1,0 +1,43 @@
+version: '3.8'
+
+services: 
+    
+  db:
+    image: postgres
+    # environment:
+    #   - POSTGRES_DB=<db_name>
+    #   - POSTGRES_USER=<db_user>
+    #   - POSTGRES_PASSWORD=<db_password>
+    volumes:
+      - type: volume
+        source: managair-data
+        target: /var/lib/postgresql/data
+  
+  managair_server:
+    image: uschuster/clair:managair_latest
+    command: python manage.py runserver 0.0.0.0:8888
+    ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 8888
+    depends_on:
+      - db
+    # env_file:
+    #   - ./managair_<stage>.env
+    
+  ingestair_server:
+    # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
+    image: uschuster/clair:managair_latest
+    command: python manage.py runserver 0.0.0.0:8888
+    ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 5555
+    depends_on:
+      - db
+    # env_file:
+    #   - ./ingestair_<stage>.env
+
+volumes:
+    managair-data:
+      external: true

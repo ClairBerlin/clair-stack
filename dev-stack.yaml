@@ -3,15 +3,10 @@ version: '3.8'
 services: 
     
   db:
-    image: postgres
     environment:
       - POSTGRES_DB=managairdb_dev
       - POSTGRES_USER=managair_dev
       - POSTGRES_PASSWORD=postgres
-    volumes:
-      - type: volume
-        source: managair-data
-        target: /var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -26,9 +21,9 @@ services:
       - db 
   
   managair_server:
-    build: ./managair/
-    command: python manage.py runserver 0.0.0.0:8888
-    container_name: managair_server
+    # build: ./managair/
+    # command: python manage.py runserver 0.0.0.0:8888
+    # container_name: managair_server
     environment:
       - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1
@@ -40,32 +35,17 @@ services:
         source: ./managair/
         target: /code
     ports:
-      # For the application's endpoints
-      - target: 8888
-        published: 8888
       # To attach to the debugger
       - target: 3000
         published: 3000
-    depends_on:
-      - db
     env_file:
       - ./managair_dev.env
     
   ingestair_server:
-    # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
-    build: ./managair/
-    command: python manage.py runserver 0.0.0.0:8888
-    container_name: ingestair_server
     environment:
       - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1  
-    ports:
-      # For the application's endpoints
-      - target: 8888
-        published: 5555
-    depends_on:
-      - db
     env_file:
       - ./ingestair_dev.env
 
