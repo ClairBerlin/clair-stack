@@ -32,6 +32,8 @@ To inspect the application logs, use `docker logs managair_server -f`. This will
 
 Because the application runs inside the container, all Django management commands must be executed _inside_ the container. That is, to execute `python3 manage.py <command>`, you need to pass the command though docker exec as `docker exec -it managair_server python3 manage.py <command>`.
 
+If you used `docker stack deploy` to run the entire stack on a docker swarm instead of `docker-compose`, you must instead use `docker exec $(docker ps -q -f name=<service_name>) <command>` to execute a command inside a container on the swarm.
+
 ### Managair application
 
 The `managair_server` application is a Django web application. In DEVELOPMENT mode, it is executed in its internal development webserver, which supports hot reloads upon code changes. To this end, the local codebase is bind-mounted into the application's docker container. Whenever you make changes to code in the `managair` git submodule locally, it will trigger a restart of the application inside the container. 
