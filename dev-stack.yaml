@@ -1,7 +1,7 @@
-version: '3.8'
+version: '3.3'
 
-services: 
-    
+services:
+
   db:
     environment:
       - POSTGRES_DB=managairdb_dev
@@ -18,8 +18,8 @@ services:
       - target: 80
         published: 8889
     depends_on:
-      - db 
-  
+      - db
+
   managair_server:
     # build: ./managair/
     # command: python manage.py runserver 0.0.0.0:8888
@@ -44,12 +44,12 @@ services:
       placement:
         constraints:
           - node.role == manager # For bind-mounts on swarm to work
-    
+
   ingestair_server:
     environment:
       - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1
-      - PYTHONUNBUFFERED=1  
+      - PYTHONUNBUFFERED=1
     env_file:
       - ./ingestair_dev.env
 

@@ -1,7 +1,7 @@
-version: '3.8'
+version: '3.3'
 
-services: 
-    
+services:
+
   db:
     image: postgres
     # environment:
@@ -12,7 +12,7 @@ services:
       - type: volume
         source: managair-data
         target: /var/lib/postgresql/data
-  
+
   managair_server:
     image: uschuster/clair:managair_latest
     command: python manage.py runserver 0.0.0.0:8888
@@ -24,7 +24,7 @@ services:
       - db
     # env_file:
     #   - ./managair_<stage>.env
-    
+
   ingestair_server:
     # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
     image: uschuster/clair:managair_latest
