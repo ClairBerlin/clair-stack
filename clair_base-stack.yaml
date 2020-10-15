@@ -13,15 +13,22 @@ services:
         source: managair-data
         target: /var/lib/postgresql/data
 
+  redis:
+    image: redis
+    ports:
+      - target: 6379
+        published: 6379
+  
   managair_server:
     image: uschuster/clair:managair_latest
-    command: python manage.py runserver 0.0.0.0:8888
+    # command: needs to be set to match the web server environment in unse
     ports:
       # For the application's endpoints
       - target: 8888
         published: 8888
     depends_on:
       - db
+      - redis
     # env_file:
     #   - ./managair_<stage>.env
 

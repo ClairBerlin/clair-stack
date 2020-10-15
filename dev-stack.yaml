@@ -22,8 +22,7 @@ services:
 
   managair_server:
     # build: ./managair/
-    # command: python manage.py runserver 0.0.0.0:8888
-    # container_name: managair_server
+    command: python manage.py runserver 0.0.0.0:8888
     environment:
       - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1
