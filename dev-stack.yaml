@@ -45,7 +45,7 @@ services:
         constraints:
           - node.role == manager # For bind-mounts on swarm to work
 
-  ingestair_server:
+  ingestair:
     environment:
       - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1

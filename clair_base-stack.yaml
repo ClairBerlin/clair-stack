@@ -25,7 +25,7 @@ services:
     # env_file:
     #   - ./managair_<stage>.env
 
-  ingestair_server:
+  ingestair:
     # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
     image: uschuster/clair:managair_latest
     command: python manage.py runserver 0.0.0.0:8888
@@ -37,6 +37,37 @@ services:
       - db
     # env_file:
     #   - ./ingestair_<stage>.env
+
+  clairchen_forwarder:
+    image: clairproject/clairttn:latest
+    depends_on:
+      - ingestair
+    secrets:
+      - clairchen_access_key
+    environment:
+      - CLAIR_MODE=clairchen-forward
+      - CLAIR_TTN_APP_ID=clairberlinproto
+      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/clairchen_access_key
+      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+
+  ers_forwarder:
+    image: clairproject/clairttn:latest
+    depends_on:
+      - ingestair
+    secrets:
+      - ers_access_key
+    environment:
+      - CLAIR_MODE=ers-forward
+      - CLAIR_TTN_APP_ID=clair-berlin-ers-co2
+      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/ers_access_key
+      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+
+secrets:
+  clairchen_access_key:
+    file: clairchen-access-key.txt
+
+  ers_access_key:
+    file: ers-access-key.txt
 
 volumes:
     managair-data:
