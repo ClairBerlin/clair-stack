@@ -1,54 +1,106 @@
-version: '3.3'
+version: '3.8'
 
 services:
 
-  db:
-    image: postgres
-    # environment:
-    #   - POSTGRES_DB=<db_name>
-    #   - POSTGRES_USER=<db_user>
-    #   - POSTGRES_PASSWORD=<db_password>
+  reverse-proxy:
+    image: traefik:v2.3
+    command:
+      - '--providers.docker=true'
+      - '--providers.docker.swarmMode=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--providers.docker.network=clair_frontend'
+      - '--accesslog=true'
+      - '--entryPoints.web.address=:80'
+    depends_on:
+      - static_frontend
+      - managair_server
+      - ingestair
     volumes:
-      - type: volume
-        source: managair-data
-        target: /var/lib/postgresql/data
-
-  redis:
-    image: redis
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - frontend
     ports:
-      - target: 6379
-        published: 6379
-  
+      - target: 80
+        published: 80
+
+  static_frontend:
+    image: clairproject/frontend:latest
+    networks:
+      - frontend
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=clair_frontend
+        - traefik.http.routers.clair-frontend.rule=Host(`${CLAIR_DOMAIN}`)
+        - traefik.http.routers.clair-frontend.priority=10
+        - traefik.http.services.clair-frontend.loadbalancer.server.port=80
+
   managair_server:
     image: uschuster/clair:managair_latest
-    # command: needs to be set to match the web server environment in unse
-    ports:
-      # For the application's endpoints
-      - target: 8888
-        published: 8888
+    command: python manage.py runserver 0.0.0.0:8888
     depends_on:
       - db
       - redis
-    # env_file:
-    #   - ./managair_<stage>.env
+    networks:
+      - frontend
+      - backend
+    environment:
+      - SECRET_KEY=${MANAGAIR_SECRET_KEY}
+      - SENTRY
+      - DEBUG
+      - PYTHONDONTWRITEBYTECODE
+      - PYTHONUNBUFFERED
+      - SQL_DATABASE
+      - SQL_USER
+      - SQL_PASSWORD
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgresql
+      - DB_MIGRATE=true
+      - NODE_FIDELITY=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=clair_frontend
+        - traefik.http.routers.clair-server.rule=PathPrefix(`/api`, `/static`, `/dashboard`, `/accounts`)
+        - traefik.http.routers.clair-server.priority=30
+        - traefik.http.services.clair-server.loadbalancer.server.port=8888
 
   ingestair:
-    # For now, we use the same managair application that also provides the external endpoints. This simplifies sharing of DB models.
+    # For now, we use the same managair application that also provides the
+    # external endpoints. This simplifies sharing of DB models.
     image: uschuster/clair:managair_latest
     command: python manage.py runserver 0.0.0.0:8888
-    ports:
-      # For the application's endpoints
-      - target: 8888
-        published: 5555
+    networks:
+      - backend
     depends_on:
       - db
-    # env_file:
-    #   - ./ingestair_<stage>.env
+    environment:
+      - SECRET_KEY=${INGESTAIR_SECRET_KEY}
+      - DEBUG
+      - PYTHONDONTWRITEBYTECODE
+      - PYTHONUNBUFFERED
+      - SENTRY
+      - SQL_DATABASE
+      - SQL_USER
+      - SQL_PASSWORD
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgresql
+      - DB_MIGRATE=false
+      - NODE_FIDELITY=0
+      - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
 
   clairchen_forwarder:
     image: clairproject/clairttn:latest
     depends_on:
       - ingestair
+    networks:
+      - frontend
+      - backend
     secrets:
       - clairchen_access_key
     environment:
@@ -61,6 +113,9 @@ services:
     image: clairproject/clairttn:latest
     depends_on:
       - ingestair
+    networks:
+      - frontend
+      - backend
     secrets:
       - ers_access_key
     environment:
@@ -68,6 +123,24 @@ services:
       - CLAIR_TTN_APP_ID=clair-berlin-ers-co2
       - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/ers_access_key
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=${SQL_DATABASE}
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+    networks:
+      - backend
+    volumes:
+      - type: volume
+        source: managair-data
+        target: /var/lib/postgresql/data
+
+  redis:
+    image: redis
+    networks:
+      - backend
 
 secrets:
   clairchen_access_key:
@@ -79,3 +152,17 @@ secrets:
 volumes:
     managair-data:
       external: true
+
+networks:
+  frontend:
+    driver: overlay
+    internal: false
+    name: clair_frontend
+    # For Traefik to refer to this network, we must give it an additional
+    # name, because the regular network name ("frontend") will ne prefixed by
+    # docker swarm with the stack name ("mystack_frontend").
+    # See: https://github.com/traefik/traefik/issues/2806#issuecomment-363251746
+  backend:
+    driver: overlay
+    internal: true
+    name: clair_backend
