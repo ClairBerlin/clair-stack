@@ -64,7 +64,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=clair_frontend
-        - traefik.http.routers.clair-server.rule=PathPrefix(`/api`, `/static`, `/dashboard`, `/accounts`)
+        - traefik.http.routers.clair-server.rule=PathPrefix(`/api`, `/static`, `/admin`, `/dashboard`, `/accounts`)
         - traefik.http.routers.clair-server.priority=30
         - traefik.http.services.clair-server.loadbalancer.server.port=8888
 
