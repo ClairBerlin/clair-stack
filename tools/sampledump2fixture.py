@@ -19,10 +19,7 @@ UUID_MAP = {
 with open(sys.argv[1]) as fd:
     fixtures = []
 
-    while True:
-        line = fd.readline()
-        if not line:
-            break
+    for line in fd:
         obj = json.loads(line)
         olduuid = uuid.UUID(bytes = base64.b64decode(obj['node_ref']['$binary']['base64']))
         fields = {
