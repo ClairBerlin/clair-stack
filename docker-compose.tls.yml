@@ -46,9 +46,9 @@ services:
   managair_server:
     deploy:
       labels:
-        - traefik.http.routers.clair-server.tls=true
-        - traefik.http.routers.clair-server.tls.domains[0].main=${CLAIR_DOMAIN}
-        - traefik.http.routers.clair-server.tls.certresolver=leresolver
+        - traefik.http.routers.managair-server.tls=true
+        - traefik.http.routers.managair-server.tls.domains[0].main=${CLAIR_DOMAIN}
+        - traefik.http.routers.managair-server.tls.certresolver=leresolver
 
 secrets:
   inwx_password:
