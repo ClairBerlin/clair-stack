@@ -59,7 +59,7 @@ services:
       - DATABASE=postgresql
       - DB_MIGRATE=true
       - NODE_FIDELITY=1
-      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
     deploy:
       labels:
         - traefik.enable=true
