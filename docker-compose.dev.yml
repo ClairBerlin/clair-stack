@@ -24,6 +24,9 @@ services:
         source: ./managair/
         target: /code
     ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 8888
       # To attach to the debugger
       - target: 3000
         published: 3000
