@@ -62,7 +62,7 @@ The entire backend stack will launch in DEVELOPMENT mode. Pending database migra
 
 ## Tools
 
-As long as no solid continuous integration system is in place, we deploy manually using `docker context use X` and `docker stack deploy`.
+As long as no solid continuous deployment system is in place, we deploy manually using `docker context use X` and `docker stack deploy`.
 
 Since there is a substantial risk of inadvertently causing damage by not resetting the docker context on your system, it is *highly recommended* to use the respective tool in the `tools` subdirectory. All these tools expect a valid environment file as their first (and usually only) argument and warn you when you are about to make changes to a docker context which is not the default.
 
