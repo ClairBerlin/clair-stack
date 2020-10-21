@@ -112,7 +112,7 @@ Regenerate the OpenAPI schema.
 
 #### `follow-logs.sh env service`
 
-Fetches and follows the log output for one of the stack's services.
+Fetch and follow the log output for one of the stack's services, e.g., `tools/follow-logs.sh environments/dev.sh managair_server`.
 
 #### `sampledump2fixture.py dump.json`
 
