@@ -1,32 +1,22 @@
-version: '3.3'
+version: '3.8'
 
 services:
-
-  db:
-    environment:
-      - POSTGRES_DB=managairdb_dev
-      - POSTGRES_USER=managair_dev
-      - POSTGRES_PASSWORD=postgres
 
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.org
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD
     ports:
       # For the application's endpoints
       - target: 80
         published: 8889
     depends_on:
       - db
+    networks:
+      - backend
 
   managair_server:
-    # build: ./managair/
-    command: python manage.py runserver 0.0.0.0:8888
-    environment:
-      - DATABASE_URL
-      - PYTHONDONTWRITEBYTECODE=1
-      - PYTHONUNBUFFERED=1
     volumes:
       # Mount the local source code folder for quick iterations.
       # See: https://www.docker.com/blog/containerized-python-development-part-3/
@@ -37,8 +27,9 @@ services:
       # To attach to the debugger
       - target: 3000
         published: 3000
-    env_file:
-      - ./managair_dev.env
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
     deploy:
       placement:
         constraints:
@@ -46,12 +37,5 @@ services:
 
   ingestair:
     environment:
-      - DATABASE_URL
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-    env_file:
-      - ./ingestair_dev.env
-
-volumes:
-    managair-data:
-      external: true
