@@ -9,6 +9,6 @@ regenerate_schema () {
 }
 
 source_env_or_fail $1
-confirm_if_not_default
 find_managair_or_fail
+confirm_if_not_default
 eval_in_docker_context regenerate_schema

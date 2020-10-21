@@ -9,4 +9,5 @@ migrate () {
 
 source_env_or_fail $1
 find_managair_or_fail
+confirm_if_not_default
 eval_in_docker_context migrate

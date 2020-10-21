@@ -16,4 +16,5 @@ create_clair_volumes () {
 }
 
 source_env_or_fail $1
+confirm_if_not_default
 eval_in_docker_context create_clair_volumes
