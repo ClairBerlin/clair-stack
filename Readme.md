@@ -120,7 +120,11 @@ tools/manage-py.sh environments/dev.env makemigrations
 
 #### `follow-logs.sh env service`
 
-Fetch and follow the log output for one of the stack's services, e.g., `tools/follow-logs.sh environments/livland.env managair_server`.
+Fetch and follow the log output for one of the stack's services:
+
+```
+tools/follow-logs.sh environments/livland.env managair_server
+```
 
 #### `sampledump2fixture.py dump.json`
 
