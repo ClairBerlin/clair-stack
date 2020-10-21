@@ -51,8 +51,9 @@ services:
         - traefik.http.routers.managair-server.tls.certresolver=leresolver
 
 secrets:
+  # The password for the jawebada INWX account
   inwx_password:
-    file: inwx-password.txt
+    file: secrets/inwx-password.txt
 
 volumes:
   certificates:

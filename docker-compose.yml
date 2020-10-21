@@ -143,11 +143,13 @@ services:
       - backend
 
 secrets:
+  # The access key for the clairberlinproto TTN application
   clairchen_access_key:
-    file: clairchen-access-key.txt
+    file: secrets/clairchen-access-key.txt
 
+  # The access key for the clair-berlin-ers-co2 TTN application
   ers_access_key:
-    file: ers-access-key.txt
+    file: secrets/ers-access-key.txt
 
 volumes:
     managair-data:
