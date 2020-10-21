@@ -18,7 +18,7 @@ The Clair stack comprises the following services:
 * `clairchen_forwarder`: a TTN application which receives uplink messages of Clairchen devices, decodes them and forwards their samples to the `ingestair`
 * `ers_forwarder`: the same for ERS devices
 * `db`: the [PostgreSQL](https://www.postgresql.org/) database
-* `redis`: a [redis](https://redis.io/) store, used by Djangos task queue
+* `redis`: a [redis](https://redis.io/) store, used by Django's task queue
 
 ### Extensions
 
@@ -106,7 +106,7 @@ Apply migrations.
 
 #### `regenerate-schema.sh env`
 
-Fegenerate the OpenAPI schema.
+Regenerate the OpenAPI schema.
 
 ### Miscellaneous
 
