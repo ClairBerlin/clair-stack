@@ -14,6 +14,7 @@ The Clair stack comprises the following services:
 
 * `reverse_proxy`: [Traefik reverse proxy](https://doc.traefik.io/traefik/)
 * `managair_server`: [Django](https://www.djangoproject.com/) application, business layer models, public API
+* `static_frontend`: An [nginx](https://nginx.org/) image serving the Clair frontend
 * `ingestair`: a second instance of the managair container, which provides an internal ingestion endpoint for measurement sanples (potentially public in the future)
 * `clairchen_forwarder`: a TTN application which receives uplink messages of Clairchen devices, decodes them and forwards their samples to the `ingestair`
 * `ers_forwarder`: the same for ERS devices
