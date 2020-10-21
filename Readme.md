@@ -56,8 +56,12 @@ To set up the Clair backend for development on your local machine, proceed as fo
   `git clone git@github.com:ClAirBerlin/clair_backend.git`
 4. Check out the submodules ([learn more about git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)):  
   `git submodule init && git submodule update`
-5. Deploy the development stack locally:  
+5. Create volumes:  
+  `tools/create-volumes.sh environments/dev.env`
+6. Deploy the development stack locally:  
   `tools/deploy-stack.sh environments/dev.env`
+7. Load example data from fixtures:  
+  `tools/load-fixtures.sh environments/dev.env`
 
 The entire backend stack will launch in DEVELOPMENT mode. Pending database migrations will be executed automatically.
 
