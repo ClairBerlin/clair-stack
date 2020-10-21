@@ -73,10 +73,6 @@ Since there is a substantial risk of inadvertently causing damage by not resetti
 
 Deploy the Clair stack to DOCKER_CONTEXT.
 
-#### `start-job-queue.sh env`
-
-Start the job queue after initial deployment.
-
 #### `rm-stack.sh env`
 
 Remove the Clair stack from DOCKER_CONTEXT.
@@ -91,23 +87,20 @@ Create the external volumes used by the Clair stack.
 
 Load sample data from internal json files.
 
-#### `create-superuser.sh env`
-
-Create a new superuser. Loading the fixtures will create 'admin/admin'. You can also create new users using the Django's admin interface.
-
 ### Development
 
-#### `make-migrations.sh env`
+#### `manage-py.sh env arg...`
 
-Create new migrations if models have been added or changed in the `managair_server` application.
+Access the
+[`manage.py`](https://docs.djangoproject.com/en/3.1/ref/django-admin/) script
+of the `managair_server` container. All arguments are passed on.
 
-#### `migrate.sh env`
+Examples:
 
-Apply migrations.
-
-#### `regenerate-schema.sh env`
-
-Regenerate the OpenAPI schema.
+```
+tools/manage-py.sh environments/dev.env createsuperuser
+tools/manage-py.sh environments/dev.env makemigrations
+```
 
 ### Miscellaneous
 
