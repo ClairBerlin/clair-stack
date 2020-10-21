@@ -99,7 +99,7 @@ Access the
 [`manage.py`](https://docs.djangoproject.com/en/3.1/ref/django-admin/) script
 of the `managair_server` container. All arguments are passed on.
 
-Add `-y` to skip confirmation, useful for piping to stdin, as in loaddata (see below).
+Add `-y` to skip confirmation in case of non-default docker contexts. This is needed for piping to stdin, as in loaddata (see below), since the prompt leads to a broken pipe.
 
 Examples:
 
@@ -112,7 +112,7 @@ tools/manage-py.sh environments/dev.env makemigrations
 
 #### `follow-logs.sh env service`
 
-Fetch and follow the log output for one of the stack's services, e.g., `tools/follow-logs.sh environments/dev.sh managair_server`.
+Fetch and follow the log output for one of the stack's services, e.g., `tools/follow-logs.sh environments/livland.env managair_server`.
 
 #### `sampledump2fixture.py dump.json`
 
