@@ -2,7 +2,7 @@
 
 This repository contains the [docker](https://www.docker.com) setup and all configuration necessary to deploy and run the entire Clair backend. Furthermore, this repository includes git submodules for individual applications of the Clair backend, to provide for a seamless development experience.
 
-We use docker in swarm mode, docker contexts, and `docker stack deploy` ([learn more](https://docs.docker.com/engine/swarm/stack-deploy/)) to deploy the stack defined in `docker-compose.yml` and its extension files `docker-compose.X.yml`.
+We use docker in swarm mode, docker contexts, and `docker stack deploy` ([learn more](https://docs.docker.com/engine/swarm/stack-deploy/)) to deploy the stack defined in `docker-compose.yml` and its extension files `docker-compose.X.yml` ([learn more about extension files](https://docs.docker.com/compose/extends/)).
 
 The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally.
 
@@ -14,7 +14,7 @@ The Clair stack comprises the following services:
 
 * `reverse_proxy`: [Traefik reverse proxy](https://doc.traefik.io/traefik/)
 * `managair_server`: [Django](https://www.djangoproject.com/) application, business layer models, public API
-* `ingestair`: a second instance of the managair container, which provides an internal ingestion endpoint for measurement sanples, which might also become a public endpoint in the future
+* `ingestair`: a second instance of the managair container, which provides an internal ingestion endpoint for measurement sanples (potentially public in the future)
 * `clairchen_forwarder`: a TTN application which receives uplink messages of Clairchen devices, decodes them and forwards their samples to the `ingestair`
 * `ers_forwarder`: the same for ERS devices
 * `db`: the [PostgreSQL](https://www.postgresql.org/) database
