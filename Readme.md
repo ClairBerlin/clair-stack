@@ -93,11 +93,13 @@ Load sample data from internal json files.
 
 ### Development
 
-#### `manage-py.sh env arg...`
+#### `manage-py.sh env [-y] arg...`
 
 Access the
 [`manage.py`](https://docs.djangoproject.com/en/3.1/ref/django-admin/) script
 of the `managair_server` container. All arguments are passed on.
+
+Add `-y` to skip confirmation, useful for piping to stdin, as in loaddata (see below).
 
 Examples:
 
@@ -119,7 +121,7 @@ Convert a mongo export of the obsolete ingestair database to a fixture which can
 ```
 docker exec -i clair_mongo.X.YYYYYY mongoexport --db clair --collection base_sample --jsonFormat canonical > samples_mongo.json
 
-tools/sampledump2fixture.py samples_mongo.json | docker exec -i clair_managair_server.X.YYYYYY python3 manage.py loaddata --format=json -
+tools/sampledump2fixture.py samples_mongo.json | tools/manage-py.sh environments/dev.env -y loaddata --format=json -
 ```
 
 ## Development tasks
