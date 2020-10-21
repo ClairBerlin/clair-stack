@@ -48,8 +48,6 @@ services:
       - SECRET_KEY=${MANAGAIR_SECRET_KEY}
       - SENTRY
       - DEBUG
-      - PYTHONDONTWRITEBYTECODE
-      - PYTHONUNBUFFERED
       - SQL_DATABASE
       - SQL_USER
       - SQL_PASSWORD
@@ -80,8 +78,6 @@ services:
     environment:
       - SECRET_KEY=${INGESTAIR_SECRET_KEY}
       - DEBUG
-      - PYTHONDONTWRITEBYTECODE
-      - PYTHONUNBUFFERED
       - SENTRY
       - SQL_DATABASE
       - SQL_USER
