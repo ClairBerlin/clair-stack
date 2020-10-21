@@ -14,14 +14,14 @@ set -e
 
 fail () {
   msg=$1
-  test -n "$msg" && echo "error: $msg"
+  test -n "$msg" && echo -e "error: $msg"
   exit 1
 }
 
 # use usage function if defined
 fail_usage () {
   msg=$1
-  test -n "$msg" && echo "error: $msg"
+  test -n "$msg" && echo -e "error: $msg"
   type usage &> /dev/null && usage || echo "usage: $SCRIPT_NAME env_file"
   exit 1
 }
