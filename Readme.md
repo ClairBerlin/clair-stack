@@ -121,7 +121,7 @@ Convert a mongo export of the obsolete ingestair database to a fixture which can
 ```
 docker exec -i clair_mongo.X.YYYYYY mongoexport --db clair --collection base_sample --jsonFormat canonical > samples_mongo.json
 
-tools/sampledump2fixture.py samples_mongo.json | tools/manage-py.sh environments/dev.env -y loaddata --format=json -
+tools/sampledump2fixture.py samples_mongo.json | tools/manage-py.sh environments/livland.env -y loaddata --format=json -
 ```
 
 ## Development tasks
