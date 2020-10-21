@@ -55,7 +55,7 @@ services:
       - SQL_HOST=db
       - SQL_PORT=5432
       - DATABASE=postgresql
-      - DB_MIGRATE=true
+      - DB_MIGRATE=${MANAGAIR_DB_MIGRATE-false}
       - NODE_FIDELITY=1
       - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
     deploy:
@@ -86,7 +86,7 @@ services:
       - SQL_HOST=db
       - SQL_PORT=5432
       - DATABASE=postgresql
-      - DB_MIGRATE=false
+      - DB_MIGRATE=${INGESTAIR_DB_MIGRATE-false}
       - NODE_FIDELITY=0
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
 
