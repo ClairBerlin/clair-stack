@@ -2,7 +2,9 @@
 
 This repository contains the [docker](https://www.docker.com) setup and all configuration necessary to deploy and run the entire Clair backend. Furthermore, this repository includes git submodules for individual applications of the Clair backend, to provide for a seamless development experience.
 
-We use docker in swarm mode, docker contexts, and `docker stack deploy` ([learn more](https://docs.docker.com/engine/swarm/stack-deploy/)) to deploy the stack defined in `docker-compose.yml` and its extension files `docker-compose.X.yml` ([learn more about extension files](https://docs.docker.com/compose/extends/)).
+We use docker in swarm mode, [docker contexts](https://docs.docker.com/engine/context/working-with-contexts/), and [`docker stack deploy`](https://docs.docker.com/engine/swarm/stack-deploy/) to deploy the stack defined in `docker-compose.yml` and its [extension files](https://docs.docker.com/compose/extends/) `docker-compose.X.yml`.
+
+`docker-compose up` does not work with these docker-compose files, because the [Traefik reverse proxy](https://doc.traefik.io/traefik/) we use reads its configuration from labels attached to the `deploy` sections of the services, which are ignored by `docker-compose`.
 
 The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally.
 
@@ -23,9 +25,15 @@ The Clair stack comprises the following services:
 
 ### Extensions
 
-The `docker-compose.dev.yml` extension used for the development environment adds:
+#### Development
+
+The `docker-compose.dev.yml` extension used for the development environment adds the following service:
 
 * `pgadmin`: a [pgAdmin](https://www.pgadmin.org/) instance
+
+#### TLS
+
+The `docker-compose.tls.yml` extension adds Traefik labels to enable automatic TLS encryption (https) using [Let's Encrypt](https://letsencrypt.org/) (LE). This should only be enabled for swarms which can be accessed by the LE servers on the internet.
 
 ## Environments
 
