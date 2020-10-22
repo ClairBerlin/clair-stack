@@ -14,9 +14,9 @@ The Clair stack comprises the following services:
 
 * `reverse_proxy`: [Traefik reverse proxy](https://doc.traefik.io/traefik/).
 * `managair_server`: [Django](https://www.djangoproject.com/) application, business layer models, public API.
-* `static_frontend`: An [nginx](https://nginx.org/) image that serves the [Clair frontend](https://github.com/ClAirBerlin/clair-frontend).
+* `static_frontend`: An [nginx](https://nginx.org/) image that serves the [Clair frontend](https://github.com/ClairBerlin/clair-frontend).
 * `ingestair`: A second instance of the managair container; provides an internal ingestion endpoint for measurement samples (potentially public in the future).
-* `clairchen_forwarder`: A [TTN application](https://github.com/ClAirBerlin/clairttn/) that receives uplink messages of Clairchen devices, decodes them, and forwards their samples to the `ingestair`.
+* `clairchen_forwarder`: A [TTN application](https://github.com/ClairBerlin/clair-ttn/) that receives uplink messages of Clairchen devices, decodes them, and forwards their samples to the `ingestair`.
 * `ers_forwarder`: The same for ERS devices.
 * `db`: The [PostgreSQL](https://www.postgresql.org/) database management system (DBMS).
 * `redis`: A [redis](https://redis.io/) store, used by Django's task queue.
@@ -59,7 +59,7 @@ To set up the Clair backend for development on your local machine, proceed as fo
 2. Activate swarm mode:  
   `docker swarm init`
 3. Clone the present repository onto your local machine:  
-  `git clone git@github.com:ClAirBerlin/clair_backend.git`
+  `git clone git@github.com:ClairBerlin/clair-stack.git`
 4. Check out the submodules ([learn more about git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)):  
   `git submodule init && git submodule update`
 5. If your local docker context is not named `default`, and the local domain should be called differently than `localhost`, adjust the `DOCKER_CONTEXT` and `CLAIR_DOMAIN` environment variables in `environments/dev.env`
