@@ -17,7 +17,7 @@ services:
       - backend
 
   managair_server:
-    image: uschuster/clair:managair_dev
+    image: uschuster/clair:managair_latest
     volumes:
       # Mount the local source code folder for quick iterations.
       # See: https://www.docker.com/blog/containerized-python-development-part-3/

@@ -3,7 +3,7 @@
 ROOT_DIR=`dirname $0`
 . $ROOT_DIR/common.sh
 
-VALID_FIXTURES="user_manager/fixtures/user-fixtures.json core/fixtures/device-fixtures.json core/fixtures/site-fixtures.json core/fixtures/data-fixtures.json"
+VALID_FIXTURES="user_manager/fixtures/user-fixtures.json core/fixtures/inventory-fixtures.json core/fixtures/data-fixtures.json"
 
 usage () {
   echo "usage: $SCRIPT_NAME env_file [fixture]..."
