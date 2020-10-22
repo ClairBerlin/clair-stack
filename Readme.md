@@ -2,26 +2,24 @@
 
 This repository contains the [docker](https://www.docker.com) setup and all configuration necessary to deploy and run the entire Clair backend. Furthermore, this repository includes git submodules for individual applications of the Clair backend, to provide for a seamless development experience.
 
+The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS, and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally. Our goal with the present infrastructure setup is to minimize the difference between development, staging, production and other environments.
+
 We use docker in swarm mode, [docker contexts](https://docs.docker.com/engine/context/working-with-contexts/), and [`docker stack deploy`](https://docs.docker.com/engine/swarm/stack-deploy/) to deploy the stack defined in `docker-compose.yml` and its [extension files](https://docs.docker.com/compose/extends/) `docker-compose.X.yml`.
 
-`docker-compose up` does not work with these docker-compose files, because the [Traefik reverse proxy](https://doc.traefik.io/traefik/) we use reads its configuration from labels attached to the `deploy` sections of the services, which are ignored by `docker-compose`.
-
-The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally.
-
-Our goal with the present infrastructure setup is to minimize the difference between development, staging, production and other environments.
+`docker-compose up` does not work with these docker-compose files because the [Traefik reverse proxy](https://doc.traefik.io/traefik/) we use reads its configuration from labels attached to the `deploy` sections of the services, which are ignored by `docker-compose`.
 
 ## Services
 
 The Clair stack comprises the following services:
 
-* `reverse_proxy`: [Traefik reverse proxy](https://doc.traefik.io/traefik/)
-* `managair_server`: [Django](https://www.djangoproject.com/) application, business layer models, public API
-* `static_frontend`: An [nginx](https://nginx.org/) image serving the [Clair frontend](https://github.com/ClAirBerlin/clair-frontend)
-* `ingestair`: a second instance of the managair container, which provides an internal ingestion endpoint for measurement sanples (potentially public in the future)
-* `clairchen_forwarder`: a [TTN application](https://github.com/ClAirBerlin/clairttn/) which receives uplink messages of Clairchen devices, decodes them and forwards their samples to the `ingestair`
-* `ers_forwarder`: the same for ERS devices
-* `db`: the [PostgreSQL](https://www.postgresql.org/) database
-* `redis`: a [redis](https://redis.io/) store, used by Django's task queue
+* `reverse_proxy`: [Traefik reverse proxy](https://doc.traefik.io/traefik/).
+* `managair_server`: [Django](https://www.djangoproject.com/) application, business layer models, public API.
+* `static_frontend`: An [nginx](https://nginx.org/) image that serves the [Clair frontend](https://github.com/ClAirBerlin/clair-frontend).
+* `ingestair`: A second instance of the managair container; provides an internal ingestion endpoint for measurement samples (potentially public in the future).
+* `clairchen_forwarder`: A [TTN application](https://github.com/ClAirBerlin/clairttn/) that receives uplink messages of Clairchen devices, decodes them, and forwards their samples to the `ingestair`.
+* `ers_forwarder`: The same for ERS devices.
+* `db`: The [PostgreSQL](https://www.postgresql.org/) database management system (DBMS).
+* `redis`: A [redis](https://redis.io/) store, used by Django's task queue.
 
 ### Extensions
 
@@ -29,11 +27,11 @@ The Clair stack comprises the following services:
 
 The `docker-compose.dev.yml` extension used for the development environment adds the following service:
 
-* `pgadmin`: a [pgAdmin](https://www.pgadmin.org/) instance
+* `pgadmin`: A [pgAdmin](https://www.pgadmin.org/) instance to inspect and manipulate the databases.
 
 #### TLS
 
-The `docker-compose.tls.yml` extension adds Traefik labels to enable automatic TLS encryption (https) using [Let's Encrypt](https://letsencrypt.org/) (LE). This should only be enabled for swarms which can be accessed by the LE servers on the internet.
+The `docker-compose.tls.yml` extension adds Traefik labels to enable automatic TLS encryption (https) using [Let's Encrypt](https://letsencrypt.org/) (LE). This should only be enabled for swarms that can be accessed by the LE servers on the internet.
 
 ## Environments
 
@@ -41,21 +39,21 @@ The configuration of the Clair stack is read from one of the environment files i
 
 The following environment variables determine the core setup:
 
-* `DOCKER_CONTEXT`: the docker context to use
-* `DOCKER_STACK_DEPLOY_ARGS`: optinal additional arguments to `docker stack deply`, mainly used to add extension files, e.g., `DOCKER_STACK_DEPLOY_ARGS="-c docker-compose.dev.yml"
-* `CLAIR_DOMAIN`: the domain used by Traefik and Django to configure their routes (`localhost`, `clair-ev.de` or similar)
+* `DOCKER_CONTEXT`: The docker context to use.
+* `DOCKER_STACK_DEPLOY_ARGS`: Optinal additional arguments to `docker stack deply`, mainly used to add extension files; e.g., `DOCKER_STACK_DEPLOY_ARGS="-c docker-compose.dev.yml".
+* `CLAIR_DOMAIN`: The domain used by Traefik and Django to configure their routes (`localhost`, `clair-ev.de` or similar).
 
 The remaining variables are used to configure the environments of the individual services.
 
 ## Secrets
 
-Some of the containers depend on various credentials, e.g., to access the TTN applications. We use [docker secrets](https://docs.docker.com/engine/swarm/secrets/) to securely transmit and store these credentials. All secrets are meant to be placed in files in the `secrets` subdirectory. The secrets in use can be found in the `secrets` sections of the `docker-compose(.X).yml` files.
+Some of the containers depend on various credentials; e.g., to access the TTN applications. We use [docker secrets](https://docs.docker.com/engine/swarm/secrets/) to securely transmit and store these credentials. All secrets are meant to be placed in files in the `secrets` subdirectory. The secrets in use can be found in the `secrets` sections of the `docker-compose(.X).yml` files.
 
 The `secrets` subdirectory is ignored by git. **Never commit any secrets to a git repository!**
 
 ## Development setup
 
-To set up the Clair backend for development on your local machine, proceed as follows.
+To set up the Clair backend for development on your local machine, proceed as follows:
 
 1. Install [docker](https://www.docker.com/get-started)
 2. Activate swarm mode:  
@@ -77,7 +75,7 @@ The entire backend stack will launch in DEVELOPMENT mode. Pending database migra
 
 As long as no solid continuous deployment system is in place, we deploy manually using `docker context use X` and `docker stack deploy`.
 
-Since there is a substantial risk of inadvertently causing damage by not resetting the docker context on your system, it is *highly recommended* to use the respective tool in the `tools` subdirectory. All these tools expect a valid environment file as their first (and usually only) argument and warn you when you are about to make changes to a docker context which is not the default.
+Since there is a substantial risk of inadvertently causing damage by not resetting the docker context on your system, it is *highly recommended* to use the respective tool in the `tools` subdirectory. All these tools expect a valid environment file as their first (and usually only) argument, and warn you when you are about to make changes to a docker context that is not the default.
 
 ### Deployment
 
@@ -146,11 +144,11 @@ All `managair` endpoints are available on your local machine at `localhost:8888`
 
 - To log in from a local webbrowser, open the preliminary login site at `localhost:8888/dashboard`.
 - The [Django admin UI](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/) is available at `localhost:8888/admin`. If you preloaded the test data, you can log in as user `admin` with password `admin`.
-- The [browsable ReST API](https://www.django-rest-framework.org/topics/browsable-api/) is available at `localhost/api/<usecase>/v1/`, where `<usecase>` is one of `devices`, `sites`, or `data`.
+- The [browsable ReST API](https://www.django-rest-framework.org/topics/browsable-api/) is available at `localhost/api/v1/`.
 
 ### Database administration
 
-To directly inspect and access the PostgreSQL database, a [pgAdmin](https://www.pgadmin.org) container is included in the stack. You can access it's UI at `localhost:8889`. Login as user `admin@admin.org`, with password `admin`.
+To directly inspect and access the PostgreSQL database, a [pgAdmin](https://www.pgadmin.org) container is included in the stack. You can access its UI at `localhost:8889`. Login as user `admin@admin.org`, with password `admin`.
 
 ## References
 
