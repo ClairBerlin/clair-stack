@@ -6,6 +6,12 @@ ROOT_DIR=`dirname $0`
 deploy_stack () {
   docker login
   docker stack deploy -c $COMPOSE_FILES_DIR/docker-compose.yml $DOCKER_STACK_DEPLOY_ARGS --with-registry-auth $CLAIR_STACK_NAME
+  while true; do
+    echo "waiting for services to start..."
+    docker service ls --filter name=$CLAIR_STACK_NAME --format {{.Replicas}} | grep -q 0 || break
+    sleep 1
+  done
+  echo "done"
 }
 
 source_env_or_fail $1
