@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+
+  reverse_proxy:
+    command:
+      - '--providers.docker=true'
+      - '--providers.docker.swarmMode=true'
+      - '--providers.docker.exposedbydefault=false'
+      - '--providers.docker.network=clair_frontend'
+      - '--accesslog=true'
+      - '--entryPoints.web.address=:80'
+      - '--entryPoints.websecure.address=:443'
+      - '--certificatesResolvers.leresolver.acme.email=jan@jawebada.de'
+      - '--certificatesResolvers.leresolver.acme.storage=/etc/traefik/acme/acme.json'
+      - '--certificatesResolvers.leresolver.acme.dnsChallenge=true'
+      - '--certificatesResolvers.leresolver.acme.dnsChallenge.provider=inwx'
+      - '--certificatesResolvers.leresolver.acme.caServer=https://acme-v02.api.letsencrypt.org/directory'
+    # - '--certificatesResolvers.leresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory'
+    ports:
+      - target: 443
+        published: 443
+    secrets:
+      - inwx_password
+    volumes:
+      - "certificates:/etc/traefik/acme"
+    environment:
+      - INWX_POLLING_INTERVAL=30
+      - INWX_PROPAGATION_TIMEOUT=1200
+      - INWX_USERNAME=jawebada
+      - INWX_PASSWORD_FILE=/run/secrets/inwx_password
+
+  static_frontend:
+    deploy:
+      labels:
+        - traefik.http.routers.clair-frontend.tls=true
+        - traefik.http.routers.clair-frontend.tls.domains[0].main=${CLAIR_DOMAIN}
+        - traefik.http.routers.clair-frontend.tls.certresolver=leresolver
+        # global redirect to https
+        - traefik.http.routers.redirect.rule=hostregexp(`{host:.+}`)
+        - traefik.http.routers.redirect.entrypoints=web
+        - traefik.http.routers.redirect.middlewares=redirect-to-https
+        # middleware redirect
+        - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+  managair_server:
+    deploy:
+      labels:
+        - traefik.http.routers.managair-server.tls=true
+        - traefik.http.routers.managair-server.tls.domains[0].main=${CLAIR_DOMAIN}
+        - traefik.http.routers.managair-server.tls.certresolver=leresolver
+
+secrets:
+  # The password for the jawebada INWX account
+  inwx_password:
+    file: secrets/inwx-password.txt
+
+volumes:
+  certificates:
