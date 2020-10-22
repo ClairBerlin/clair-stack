@@ -36,7 +36,7 @@ source_env_or_fail () {
   . $env_file
 
   for v in $REQUIRED_ENV_VARS; do
-    test -v $v || fail "missing environment variable: $v"
+    test -n "${!v}" || fail "missing environment variable: $v" 
     echo "$v: ${!v}"
   done
 }

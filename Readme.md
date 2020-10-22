@@ -35,15 +35,15 @@ The `docker-compose.tls.yml` extension adds Traefik labels to enable automatic T
 
 ## Environments
 
-The configuration of the Clair stack is read from one of the environment files in the `environments` subdirectory. These files are sourced to export a number of environment variables.
+All configuration is handled through environment variables. For each deployment target, all environment variables are grouped in a target-specific environment file located in the `environments/` folder. Upon deployment, the configuration of the Clair stack is sourced from the selected environment file.
 
-The following environment variables determine the core setup:
+The first three environment variables in each file control the overall deployment:
 
-* `DOCKER_CONTEXT`: The docker context to use.
-* `DOCKER_STACK_DEPLOY_ARGS`: Optinal additional arguments to `docker stack deply`, mainly used to add extension files; e.g., `DOCKER_STACK_DEPLOY_ARGS="-c docker-compose.dev.yml".
+* `DOCKER_CONTEXT`: The [docker context](https://docs.docker.com/engine/context/working-with-contexts/) to use. The context defines the docker swarm on which the system is to be deployed. If you want to deploy teh stack for local development work, you need to initialize a local context first, which will typically be named `default`. Use `docker context ls` to see all available contexts.
 * `CLAIR_DOMAIN`: The domain used by Traefik and Django to configure their routes (`localhost`, `clair-ev.de` or similar).
+* `DOCKER_STACK_DEPLOY_ARGS`: Optinal additional arguments to `docker stack deply`, mainly used to add extension files; e.g., `DOCKER_STACK_DEPLOY_ARGS="-c docker-compose.dev.yml".
 
-The remaining variables are used to configure the environments of the individual services.
+All remaining variables affect one or more services.
 
 ## Secrets
 
@@ -62,11 +62,12 @@ To set up the Clair backend for development on your local machine, proceed as fo
   `git clone git@github.com:ClAirBerlin/clair_backend.git`
 4. Check out the submodules ([learn more about git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)):  
   `git submodule init && git submodule update`
-5. Create volumes:  
+5. If your local docker context is not named `default`, and the local domain should be called differently than `localhost`, adjust the `DOCKER_CONTEXT` and `CLAIR_DOMAIN` environment variables in `environments/dev.env`
+6. Create volumes:  
   `tools/create-volumes.sh environments/dev.env`
-6. Deploy the development stack locally:  
+7. Deploy the development stack locally:  
   `tools/deploy-stack.sh environments/dev.env`
-7. Load example data from fixtures:  
+8. Load example data from fixtures:  
   `tools/load-fixtures.sh environments/dev.env`
 
 The entire backend stack will launch in DEVELOPMENT mode. Pending database migrations will be executed automatically.
