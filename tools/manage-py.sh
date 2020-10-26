@@ -9,7 +9,7 @@ usage () {
 }
 
 manage_py () {
-  docker exec -i $MANAGAIR_CONTAINER_ID python3 manage.py $@
+  docker exec -e COLUMNS="`tput cols`" -e LINES="`tput lines`" -ti $MANAGAIR_CONTAINER_ID python3 manage.py $@
 }
 
 source_env_or_fail $1
