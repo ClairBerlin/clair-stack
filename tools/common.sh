@@ -58,4 +58,5 @@ eval_in_docker_context () {
 find_managair_or_fail () {
   MANAGAIR_CONTAINER_ID=`eval_in_docker_context docker ps -aqf "name=${CLAIR_STACK_NAME}_managair_server"`
   test -n "$MANAGAIR_CONTAINER_ID" || fail "managair container not found"
+  echo $MANAGAIR_CONTAINER_ID | grep -q '\s' && fail "more than one managair containers found"
 }
