@@ -36,7 +36,7 @@ source_env_or_fail () {
   . $env_file
 
   for v in $REQUIRED_ENV_VARS; do
-    test -n "${!v}" || fail "missing environment variable: $v" 
+    test -n "${!v}" || fail "missing environment variable: $v"
     echo "$v: ${!v}"
   done
 }
@@ -56,7 +56,7 @@ eval_in_docker_context () {
 }
 
 find_managair_or_fail () {
-  MANAGAIR_CONTAINER_ID=`eval_in_docker_context docker ps -aqf "name=${CLAIR_STACK_NAME}_managair_server"`
+  MANAGAIR_CONTAINER_ID=`eval_in_docker_context docker ps -qf "name=${CLAIR_STACK_NAME}_managair_server"`
   test -n "$MANAGAIR_CONTAINER_ID" || fail "managair container not found"
   echo $MANAGAIR_CONTAINER_ID | grep -q '\s' && fail "more than one managair containers found"
 }
