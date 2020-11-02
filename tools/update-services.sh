@@ -4,18 +4,19 @@ ROOT_DIR=`dirname $0`
 . $ROOT_DIR/common.sh
 
 usage () {
-  echo "usage: $SCRIPT_NAME env_file service_name..."
+  echo "usage: $SCRIPT_NAME env_file [service_name image_name]..."
 }
 
 update_tasks () {
-  test -n "$1" || fail_usage "no service_name specified"
-  docker login
-  for service_name in $*; do
+  while test "$#" != "0"; do
+    service_name=$1
+    image_name=$2
+    test -n "$service_name" && test -n "$image_name" || fail_usage
+    docker login
+    docker pull $image_name
     full_service_name=${CLAIR_STACK_NAME}_${service_name}
-    image=`docker ps --filter "name=${full_service_name}" --format "{{.Image}}"`
-    test -n "$image" || fail "service ${service_name} not found"
-    docker pull $image
-    docker service update --image $image $full_service_name
+    docker service update --image $image_name $full_service_name --with-registry-auth
+    shift 2
   done
 }
 
