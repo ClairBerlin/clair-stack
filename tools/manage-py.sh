@@ -4,7 +4,7 @@ ROOT_DIR=`dirname $0`
 . $ROOT_DIR/common.sh
 
 usage () {
-  echo "usage: $SCRIPT_NAME [-y] arg..."
+  echo "usage: $SCRIPT_NAME env [-y] arg..."
   echo "-y: skip confirmation"
 }
 
