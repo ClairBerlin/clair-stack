@@ -10,7 +10,7 @@ usage () {
 follow_logs () {
   service_name=$1
   test -n "$service_name" || fail_usage "no service_name specified"
-  container_id=`docker ps -aqf "name=${CLAIR_STACK_NAME}_$service_name"`
+  container_id=`docker ps -qf "name=${CLAIR_STACK_NAME}_$service_name"`
   existing_services=`docker service ls --format={{.Name}} | sed s/${CLAIR_STACK_NAME}_//`
   test -n "$container_id" || fail "service $service_name not found, existing services:\n$existing_services"
   docker logs $container_id -f
