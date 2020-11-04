@@ -31,6 +31,8 @@ services:
       # To attach to the debugger
       - target: 3000
         published: 3000
+      - target: 3001
+        published: 3001
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
