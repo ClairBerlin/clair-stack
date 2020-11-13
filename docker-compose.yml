@@ -48,6 +48,10 @@ services:
       - SECRET_KEY=${MANAGAIR_SECRET_KEY}
       - SENTRY
       - DEBUG
+      - DEBUG_TOOLBAR
+      - DJANGO_LOG_LEVEL
+      - DJANGO_DB_LOG_LEVEL
+      - LOG_LEVEL
       - SQL_DATABASE
       - SQL_USER
       - SQL_PASSWORD
@@ -79,6 +83,10 @@ services:
     environment:
       - SECRET_KEY=${INGESTAIR_SECRET_KEY}
       - DEBUG
+      - DEBUG_TOOLBAR
+      - DJANGO_LOG_LEVEL
+      - DJANGO_DB_LOG_LEVEL
+      - LOG_LEVEL
       - SENTRY
       - SQL_DATABASE
       - SQL_USER
