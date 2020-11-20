@@ -24,7 +24,7 @@ services:
         published: 80
 
   static_frontend:
-    image: clairproject/frontend:latest
+    image: clairberlin/website:latest
     networks:
       - frontend
     deploy:
@@ -36,7 +36,7 @@ services:
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
   managair_server:
-    image: uschuster/clair:managair_latest
+    image: clairberlin/managair:latest
     command: python manage.py runserver 0.0.0.0:8888
     depends_on:
       - db
@@ -63,14 +63,14 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=clair_frontend
-        - traefik.http.routers.managair-server.rule=PathPrefix(`/api`, `/static`, `/admin`, `/dashboard`, `/accounts`)
+        - traefik.http.routers.managair-server.rule=PathPrefix(`/api`, `/static`, `/admin`, `/accounts`)
         - traefik.http.routers.managair-server.priority=30
         - traefik.http.services.managair-server.loadbalancer.server.port=8888
 
   ingestair:
     # For now, we use the same managair application that also provides the
     # external endpoints. This simplifies sharing of DB models.
-    image: uschuster/clair:managair_latest
+    image: clairberlin/managair:latest
     command: python manage.py runserver 0.0.0.0:8888
     networks:
       - backend
@@ -92,7 +92,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
 
   clairchen_forwarder:
-    image: clairproject/clairttn:latest
+    image: clairberlin/clairttn:latest
     depends_on:
       - ingestair
     networks:
@@ -107,7 +107,7 @@ services:
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
 
   ers_forwarder:
-    image: clairproject/clairttn:latest
+    image: clairberlin/clairttn:latest
     depends_on:
       - ingestair
     networks:
