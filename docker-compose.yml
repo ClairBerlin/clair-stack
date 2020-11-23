@@ -24,7 +24,7 @@ services:
         published: 80
 
   static_frontend:
-    image: clairberlin/website:latest
+    image: clairberlin/website:1
     networks:
       - frontend
     deploy:
@@ -36,7 +36,7 @@ services:
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
   managair_server:
-    image: clairberlin/managair:latest
+    image: clairberlin/managair:0.1.0
     command: python manage.py runserver 0.0.0.0:8888
     depends_on:
       - db
@@ -74,7 +74,7 @@ services:
   ingestair:
     # For now, we use the same managair application that also provides the
     # external endpoints. This simplifies sharing of DB models.
-    image: clairberlin/managair:latest
+    image: clairberlin/managair:0.1.0
     command: python manage.py runserver 0.0.0.0:8888
     networks:
       - backend
@@ -100,7 +100,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
 
   clairchen_forwarder:
-    image: clairberlin/clairttn:latest
+    image: clairberlin/clairttn:1
     depends_on:
       - ingestair
     networks:
@@ -115,7 +115,7 @@ services:
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
 
   ers_forwarder:
-    image: clairberlin/clairttn:latest
+    image: clairberlin/clairttn:1
     depends_on:
       - ingestair
     networks:
@@ -130,7 +130,7 @@ services:
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
 
   db:
-    image: postgres
+    image: postgres:13.1
     environment:
       - POSTGRES_DB=${SQL_DATABASE}
       - POSTGRES_USER=${SQL_USER}
@@ -143,7 +143,7 @@ services:
         target: /var/lib/postgresql/data
 
   redis:
-    image: redis
+    image: redis:6.0.9
     networks:
       - backend
 
