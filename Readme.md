@@ -1,8 +1,10 @@
 # The Clair Backend Infrastructure
 
-This repository contains the [docker](https://www.docker.com) setup and all configuration necessary to deploy and run the entire Clair backend. Furthermore, this repository includes git submodules for individual applications of the Clair backend, to provide for a seamless development experience.
+The _Clair Stack_ is the infrastructure-as-code implementation of the _Clair Platform_, a system to collect measurements from networked CO2-sensors for indoor air-quality monitoring. It is developed and run by the [Clair Berlin Initiative](https://clair-berlin.de), a non-profit, open-source initiative to help operators of public spaces lower the risk of SARS-CoV2-transmission amongst their patrons.
 
-The Clair backend consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS, and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally. Our goal with the present infrastructure setup is to minimize the difference between development, staging, production and other environments.
+The Clair Stack consists of several Python applications, some of which share a [PostgreSQL](https://www.postgresql.org) DBMS. For ease of development, we packaged the applications proper, the DBMS, and the [pgAdmin](https://www.pgadmin.org) database administration service into docker containers, so that the entire setup can be run locally. Our goal with the present infrastructure setup is to minimize the difference between development, staging, production and other environments.
+
+This repository contains the [docker](https://www.docker.com) setup and all configuration necessary to deploy and run the entire Clair Stack. Furthermore, this repository includes git submodules for individual applications of the stack, to provide for a seamless development experience.
 
 We use docker in swarm mode, [docker contexts](https://docs.docker.com/engine/context/working-with-contexts/), and [`docker stack deploy`](https://docs.docker.com/engine/swarm/stack-deploy/) to deploy the stack defined in `docker-compose.yml` and its [extension files](https://docs.docker.com/compose/extends/) `docker-compose.X.yml`.
 
