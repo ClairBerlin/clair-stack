@@ -24,7 +24,7 @@ services:
         published: 80
 
   static_frontend:
-    image: clairberlin/website:10
+    image: clairberlin/website:11
     networks:
       - frontend
     deploy:
