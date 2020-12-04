@@ -48,7 +48,6 @@ services:
       - SECRET_KEY=${MANAGAIR_SECRET_KEY}
       - SENTRY
       - DEBUG
-      - DEBUG_TOOLBAR
       - DJANGO_LOG_LEVEL
       - DJANGO_DB_LOG_LEVEL
       - LOG_LEVEL
@@ -63,6 +62,12 @@ services:
       - COLLECT_STATIC_FILES=${MANAGAIR_COLLECT_STATIC_FILES-false}
       - NODE_FIDELITY=1
       - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_USE_TLS
+      - DEFAULT_FROM_EMAIL
     deploy:
       labels:
         - traefik.enable=true
