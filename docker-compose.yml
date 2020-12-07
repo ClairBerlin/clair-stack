@@ -45,16 +45,16 @@ services:
       - frontend
       - backend
     environment:
-      - SECRET_KEY=${MANAGAIR_SECRET_KEY}
+      - SECRET_KEY_FILE=/run/secrets/managair_secret_key
       - SENTRY
+      - SENTRY_URL_FILE=/run/secrets/sentry_url
       - DEBUG
-      - DEBUG_TOOLBAR
       - DJANGO_LOG_LEVEL
       - DJANGO_DB_LOG_LEVEL
       - LOG_LEVEL
       - SQL_DATABASE
       - SQL_USER
-      - SQL_PASSWORD
+      - SQL_PASSWORD_FILE=/run/secrets/sql_password
       - SQL_ENGINE=django.db.backends.postgresql
       - SQL_HOST=db
       - SQL_PORT=5432
@@ -63,6 +63,17 @@ services:
       - COLLECT_STATIC_FILES=${MANAGAIR_COLLECT_STATIC_FILES-false}
       - NODE_FIDELITY=1
       - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password
+      - EMAIL_USE_TLS
+      - DEFAULT_FROM_EMAIL
+    secrets:
+      - managair_secret_key
+      - sql_password
+      - smtp_password
+      - sentry_url
     deploy:
       labels:
         - traefik.enable=true
@@ -81,16 +92,16 @@ services:
     depends_on:
       - db
     environment:
-      - SECRET_KEY=${INGESTAIR_SECRET_KEY}
+      - SECRET_KEY_FILE=/run/secrets/ingestair_secret_key
       - DEBUG
       - DEBUG_TOOLBAR
       - DJANGO_LOG_LEVEL
       - DJANGO_DB_LOG_LEVEL
       - LOG_LEVEL
-      - SENTRY
+      - SENTRY=0 # Reserve sentry for managair.
       - SQL_DATABASE
       - SQL_USER
-      - SQL_PASSWORD
+      - SQL_PASSWORD_FILE=/run/secrets/sql_password
       - SQL_ENGINE=django.db.backends.postgresql
       - SQL_HOST=db
       - SQL_PORT=5432
@@ -98,6 +109,10 @@ services:
       - DB_MIGRATE=${INGESTAIR_DB_MIGRATE-false}
       - NODE_FIDELITY=0
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
+      - EMAIL_HOST_PASSWORD="" # Ingestair does not need to send emails.
+    secrets:
+      - ingestair_secret_key
+      - sql_password
 
   clairchen_forwarder:
     image: clairberlin/clairttn:1
@@ -148,13 +163,31 @@ services:
       - backend
 
 secrets:
-  # The access key for the clairberlinproto TTN application
+  # The access key for the clairberlinproto TTN application.
   clairchen_access_key:
     file: secrets/clairchen-access-key.txt
 
-  # The access key for the clair-berlin-ers-co2 TTN application
+  # The access key for the clair-berlin-ers-co2 TTN application.
   ers_access_key:
     file: secrets/ers-access-key.txt
+
+  # The django secret keys, used to sign tokens (among other uses).
+  managair_secret_key:
+    file: secrets/managair-secret-key.txt
+  ingestair_secret_key:
+    file: secrets/ingestair-secret-key.txt
+
+  # The password to connect to the PostgreSQL database.
+  sql_password:
+    file: secrets/sql-password.txt
+
+  # The password to connecto to the SMTP mail server.
+  smtp_password:
+    file: secrets/smtp-password.txt
+  
+  # The secret URL to report errors to Sentry.io.
+  sentry_url:
+    file: secrets/sentry-url.txt
 
 volumes:
     managair-data:

@@ -27,6 +27,7 @@ services:
       - type: bind
         source: ./managair/
         target: /code
+        consistency: delegated
     ports:
       # For the application's endpoints
       - target: 8888
@@ -39,6 +40,7 @@ services:
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
+      - DEBUG_TOOLBAR
     deploy:
       placement:
         constraints:
