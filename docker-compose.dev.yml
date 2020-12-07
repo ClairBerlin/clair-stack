@@ -57,5 +57,3 @@ services:
 
   ers_forwarder:
     image: clairberlin/clairttn:latest
-    environment:
-      - DEBUG=0
