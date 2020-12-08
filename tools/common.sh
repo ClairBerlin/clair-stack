@@ -48,11 +48,16 @@ confirm_if_not_default () {
   test "$answer" = "yes" || exit
 }
 
+reset_docker_context () {
+  docker context use default > /dev/null 2>&1
+}
+
 eval_in_docker_context () {
   test -n "$DOCKER_CONTEXT" || fail "DOCKER_CONTEXT undefined"
   docker context use $DOCKER_CONTEXT > /dev/null 2>&1
+  trap reset_docker_context SIGINT
   eval $*
-  docker context use default > /dev/null 2>&1
+  reset_docker_context
 }
 
 find_managair_or_fail () {
