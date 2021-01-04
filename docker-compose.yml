@@ -114,6 +114,17 @@ services:
       - ingestair_secret_key
       - sql_password
 
+  mqtt_broker:
+    image: eclipse-mosquitto:latest
+    # Tell the entrypoint script to take the configuration from a docker secret
+    command: ["/usr/sbin/mosquitto", "-c", "/run/secrets/mqtt_broker_config"]
+    secrets:
+      - mqtt_broker_config
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager # For bind-mounts on docker-swarm to work.
+
   clairchen_forwarder:
     image: clairberlin/clairttn:1
     depends_on:
@@ -170,6 +181,11 @@ secrets:
   # The access key for the clair-berlin-ers-co2 TTN application.
   ers_access_key:
     file: secrets/ers-access-key.txt
+
+  # The configuration file for the clair-berlin-ers-co2 MQTT bridge,
+  # which includes the clair-berlin-ers-co2 TTN access key
+  mqtt_broker_config:
+    file: secrets/mosquitto.conf
 
   # The django secret keys, used to sign tokens (among other uses).
   managair_secret_key:
