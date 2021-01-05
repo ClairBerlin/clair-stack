@@ -199,7 +199,7 @@ networks:
     internal: false
     name: clair_frontend
     # For Traefik to refer to this network, we must give it an additional
-    # name, because the regular network name ("frontend") will ne prefixed by
+    # name, because the regular network name ("frontend") will be prefixed by
     # docker swarm with the stack name ("mystack_frontend").
     # See: https://github.com/traefik/traefik/issues/2806#issuecomment-363251746
   backend:
