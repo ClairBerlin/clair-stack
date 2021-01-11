@@ -242,7 +242,7 @@ websites</y:NodeLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="20" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="28.4140625" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="n" textColor="#000000" verticalTextPosition="bottom" visible="true" width="105.73828125" x="-24.592090606689453" xml:space="preserve" y="-32.4140625">Private User</y:NodeLabel>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.554100036621094" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.55410003662132" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="33.296875" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="s" textColor="#000000" verticalTextPosition="bottom" visible="true" width="94.94921875" x="-19.197559356689453" xml:space="preserve" y="68.96826171875">A user that holds a
 Clair account.</y:NodeLabel>
           <y:SVGNodeProperties usingVisualBounds="true"/>
@@ -267,7 +267,7 @@ Clair account.</y:NodeLabel>
             </y:ModelParameter>
           </y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="20" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="28.4140625" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="n" textColor="#000000" verticalTextPosition="bottom" visible="true" width="101.5" x="-22.472949981689453" xml:space="preserve" y="-32.4140625">Admin User</y:NodeLabel>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.554100036621094" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.55410003662132" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="47.9453125" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="s" textColor="#000000" verticalTextPosition="bottom" visible="true" width="152.845703125" x="-48.14580154418945" xml:space="preserve" y="68.96826171875">Someone from the Clair team,
 who holds an account with the
 "superuser" privilege.</y:NodeLabel>
@@ -293,7 +293,7 @@ who holds an account with the
             </y:ModelParameter>
           </y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="20" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="28.4140625" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="n" textColor="#000000" verticalTextPosition="bottom" visible="true" width="97.037109375" x="-20.241504669189453" xml:space="preserve" y="-32.4140625">Public User</y:NodeLabel>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.554100036621094" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="sides" modelPosition="e" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.0390625" x="60.554100036620866" xml:space="preserve" y="23.159912109375">[Person]</y:NodeLabel>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="33.296875" horizontalTextPosition="center" iconTextGap="4" modelName="sandwich" modelPosition="s" textColor="#000000" verticalTextPosition="bottom" visible="true" width="143.04296875" x="-43.24443435668945" xml:space="preserve" y="68.96826171875">An anonymos user without a
 Clair account.</y:NodeLabel>
           <y:SVGNodeProperties usingVisualBounds="true"/>
@@ -561,7 +561,6 @@ Elsys ERS CO2 messages.<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" 
           <y:EdgeLabel alignment="center" anchorX="-373.007568359375" anchorY="225.46847098214357" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" upX="1.0" upY="1.8369701987210297E-16" verticalTextPosition="bottom" visible="true" width="42.244140625" x="-373.007568359375" xml:space="preserve" y="225.46847098214357">[HTTPS]<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="2.0" distanceRelativeToEdge="true" mode="side_slider"/></y:LabelModel><y:ModelParameter><y:RotatedSliderEdgeLabelModelParameter invertingSign="true" ratio="0.4285714285714297" segment="-1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
           <y:EdgeLabel alignment="center" anchorX="-410.304443359375" anchorY="194.1669921875" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="33.296875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" upX="1.0" upY="1.8369701987210297E-16" verticalTextPosition="bottom" visible="true" width="138.77734375" x="-410.304443359375" xml:space="preserve" y="194.1669921875">Validate domain and certify
 private TLS keys<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="2.0" distanceRelativeToEdge="true" mode="side_slider"/></y:LabelModel><y:ModelParameter><y:RotatedSliderEdgeLabelModelParameter invertingSign="false" ratio="0.5" segment="1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="six_pos" modelPosition="thead" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" verticalTextPosition="bottom" visible="true" width="10.08203125" x="-387.089599609375" xml:space="preserve" y="572.7265625">1<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
           <y:BendStyle smoothed="true"/>
         </y:PolyLineEdge>
       </data>
@@ -837,7 +836,6 @@ Clairchen messages.<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRigh
       </data>
     </edge>
     <edge id="e16" source="n9" target="n0::n9">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -851,35 +849,7 @@ Clairchen messages.<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRigh
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n0::e10" source="n0::n3" target="n0::n9">
-      <data key="d9"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="46.512434061793556" sy="-44.773172569706276" tx="46.512434061793556" ty="48.24152223059525"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" anchorX="-2.000052342130857" anchorY="-91.46518723948498" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6.123233995736766E-17" verticalTextPosition="bottom" visible="true" width="106.474609375" x="-20.648489842130857" xml:space="preserve" y="-197.93979661448498">embedd Clair Widget<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="2.0" distanceRelativeToEdge="true" mode="side_slider"/></y:LabelModel><y:ModelParameter><y:RotatedSliderEdgeLabelModelParameter invertingSign="true" ratio="0.5" segment="0"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
-          <y:EdgeLabel alignment="center" anchorX="20.648385157869143" anchorY="-124.70835130198475" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" upX="-1.0" upY="-6.123233995736766E-17" verticalTextPosition="bottom" visible="true" width="39.98828125" x="1.9999476578691429" xml:space="preserve" y="-164.69663255198475">[HTML]<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="2.0" distanceRelativeToEdge="true" mode="side_slider"/></y:LabelModel><y:ModelParameter><y:RotatedSliderEdgeLabelModelParameter invertingSign="false" ratio="0.49999999999999883" segment="0"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n0::e11" source="n0::n3" target="n0::n0">
-      <data key="d9"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="21.915599095704465" sy="-32.474755086661844" tx="0.0" ty="0.0">
-            <y:Point x="1698.5621703089676" y="1067.8944988696308"/>
-          </y:Path>
-          <y:LineStyle color="#999999" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" anchorX="-79.01580032992842" anchorY="-171.25439024001844" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Calibri" fontSize="12" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="18.6484375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#999999" upX="-0.4599365746794854" upY="0.8879517708029542" verticalTextPosition="bottom" visible="true" width="106.955078125" x="-182.56384981426493" xml:space="preserve" y="-220.4469425174077">Retrieve Clair Widget<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotationEnabled="true" distance="2.0" distanceRelativeToEdge="true" mode="side_slider"/></y:LabelModel><y:ModelParameter><y:RotatedSliderEdgeLabelModelParameter invertingSign="false" ratio="0.5000000000000009" segment="1"/></y:ModelParameter><y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" frozen="true" placement="anywhere" side="anywhere" sideReference="relative_to_edge_flow"/></y:EdgeLabel>
-          <y:BendStyle smoothed="true"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
     <edge id="e17" source="n11" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-6.737000753579196" ty="18.26299924642035">
@@ -895,7 +865,6 @@ Send samples<y:LabelModel><y:RotatedSliderEdgeLabelModel angle="0.0" autoRotatio
       </data>
     </edge>
     <edge id="e18" source="n10" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-24.159758854558845" sy="58.232856066314866" tx="59.44235116804856" ty="0.5169555388092704">
