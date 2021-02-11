@@ -52,11 +52,17 @@ services:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
 
-  mqtt_broker:
+  ttnv2_mqtt_broker:
     ports:
       # Expose the TCP/IP MQTT port for testing.
       - target: 1883
         published: 1884
+  
+  ttnv3_mqtt_broker:
+    ports:
+      # Expose the TCP/IP MQTT port for testing.
+      - target: 1883
+        published: 1885
 
   clairchen_forwarder:
     image: clairberlin/clairttn:latest
