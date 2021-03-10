@@ -35,7 +35,7 @@ The `docker-compose.dev.yml` extension used for the development environment adds
 
 The `docker-compose.tls.yml` extension adds Traefik labels to enable automatic TLS encryption (https) using [Let's Encrypt](https://letsencrypt.org/) (LE). This should only be enabled for swarms that can be accessed by the LE servers on the internet.
 
-## Environments
+## Configuration via environments
 
 All configuration is handled through environment variables. For each deployment target, all environment variables are grouped in a target-specific environment file located in the `environments/` folder. Upon deployment, the configuration of the Clair stack is sourced from the selected environment file.
 
@@ -74,13 +74,27 @@ To set up the Clair backend for development on your local machine, proceed as fo
 
 The entire backend stack will launch in DEVELOPMENT mode. Pending database migrations will be executed automatically.
 
-## Tools
+### Development access to the managair application
+
+The `managair_server` application is a Django web application. In DEVELOPMENT mode, it is executed in its internal development webserver, which supports hot reloads upon code changes. To this end, the local codebase is bind-mounted into the application's docker container. Whenever you make changes to code in the `managair` git submodule locally, it will trigger a restart of the application inside the container.
+
+All `managair` endpoints are available on your local machine at `localhost:8888`:
+
+- To log in from a local webbrowser, open the preliminary login site at `localhost:8888/dashboard`.
+- The [Django admin UI](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/) is available at `localhost:8888/admin`. If you preloaded the test data, you can log in as user `admin` with password `admin`.
+- The [browsable ReST API](https://www.django-rest-framework.org/topics/browsable-api/) is available at `localhost/api/v1/`.
+
+### Development access to the database
+
+To directly inspect and access the PostgreSQL database, a [pgAdmin](https://www.pgadmin.org) container is included in the stack. You can access its UI at `localhost:8889`. Login as user `admin@admin.org`, with password `admin`.
+
+## Utilities
 
 As long as no solid continuous deployment system is in place, we deploy manually using `docker context use X` and `docker stack deploy`.
 
 Since there is a substantial risk of inadvertently causing damage by not resetting the docker context on your system, it is *highly recommended* to use the respective tool in the `tools` subdirectory. All these tools expect a valid environment file as their first (and usually only) argument, and warn you when you are about to make changes to a docker context that is not the default.
 
-### Deployment
+### Deployment Utilities
 
 #### `deploy-stack.sh env`
 
@@ -90,7 +104,7 @@ Deploy the Clair stack to DOCKER_CONTEXT.
 
 Remove the Clair stack from DOCKER_CONTEXT.
 
-### Initial Setup
+### Initial Setup Utilities
 
 #### `create-volumes.sh env`
 
@@ -100,7 +114,7 @@ Create the external volumes used by the Clair stack.
 
 Load sample data from internal json files.
 
-### Development
+### Development Utilities
 
 #### `manage-py.sh env [-y] arg...`
 
@@ -112,7 +126,7 @@ Add `-y` to skip confirmation in case of non-default docker contexts. This is ne
 
 Examples:
 
-```
+```bash
 tools/manage-py.sh environments/dev.env createsuperuser
 tools/manage-py.sh environments/dev.env makemigrations
 ```
@@ -123,7 +137,7 @@ tools/manage-py.sh environments/dev.env makemigrations
 
 Fetch and follow the log output for one of the stack's services:
 
-```
+```bash
 tools/follow-logs.sh environments/livland.env managair_server
 ```
 
@@ -131,27 +145,44 @@ tools/follow-logs.sh environments/livland.env managair_server
 
 Convert a mongo export of the obsolete ingestair database to a fixture which can be loaded from stdin.
 
-```
+```bash
 docker exec -i clair_mongo.X.YYYYYY mongoexport --db clair --collection base_sample --jsonFormat canonical > samples_mongo.json
 
 tools/sampledump2fixture.py samples_mongo.json | tools/manage-py.sh environments/livland.env -y loaddata --format=json -
 ```
 
-## Development tasks
+## Administration
 
-### Managair application
+The following is a summary of typical administrative tasks for a production environment.
 
-The `managair_server` application is a Django web application. In DEVELOPMENT mode, it is executed in its internal development webserver, which supports hot reloads upon code changes. To this end, the local codebase is bind-mounted into the application's docker container. Whenever you make changes to code in the `managair` git submodule locally, it will trigger a restart of the application inside the container.
+### Insert samples into the database
 
-All `managair` endpoints are available on your local machine at `localhost:8888`:
+There might arise the need to add samples to the core database that were not present previously.
+The simplest way to do so is via [Django fixtures](https://docs.djangoproject.com/en/3.1/howto/initial-data/).
+Developed as a means to populate a Django database for testing, fixtures can also be used to load additional data into a table.
 
-- To log in from a local webbrowser, open the preliminary login site at `localhost:8888/dashboard`.
-- The [Django admin UI](https://docs.djangoproject.com/en/3.1/ref/contrib/admin/) is available at `localhost:8888/admin`. If you preloaded the test data, you can log in as user `admin` with password `admin`.
-- The [browsable ReST API](https://www.django-rest-framework.org/topics/browsable-api/) is available at `localhost/api/v1/`.
+The most common administrative use for the Clair Stack arises when a [TTN forwarder] disconnects from the Things Network for any reason, so that sensor data no longer arrives at the Clair Stack.
+If the corresponding TTN application has the [Data Storage Integration](https://www.thethingsnetwork.org/docs/applications/storage/index.html) enabled, it acts as a backup from which you can recover lost data for up to seven days.
+Use the command line tool `clair-generate-fixtures-from-storage` that comes with the [Clair-TTN](https://github.com/ClairBerlin/clair-ttn) application to retrieve the missing samples from the TTN storage integration and turn them into a JSON file that can be read in as a Django fixture.
 
-### Database administration
+To otherwise import samples, you need to prepare them according to Django's fixture format.
+To actually trigger the import, pipe the resulting fixtures file into the Django management wrapper discussed previously:
 
-To directly inspect and access the PostgreSQL database, a [pgAdmin](https://www.pgadmin.org) container is included in the stack. You can access its UI at `localhost:8889`. Login as user `admin@admin.org`, with password `admin`.
+```bash
+cat <fixtures_file> | ./tools/manage-py.sh -y <environment_file> loaddata --format=json -
+```
+
+Note that the `-y` flag overrides the safety question when you attempt to rund the command on a production environment. The trailing dash `-` is required for Django to pick up the stream from stdin.
+
+Upon import, the DBMS enforces constraints on the uniqueness of samples - you cannot re-import a sample that is already present in the database. Therefore, you need to manually clean the fixtures in advances to not contain duplicates.
+
+### Restart a single service
+
+_TODO_
+
+### Update a service
+
+_TODO_
 
 ## References
 
