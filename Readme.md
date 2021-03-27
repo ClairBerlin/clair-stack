@@ -169,7 +169,7 @@ To otherwise import samples, you need to prepare them according to Django's fixt
 To actually trigger the import, pipe the resulting fixtures file into the Django management wrapper discussed previously:
 
 ```bash
-cat <fixtures_file> | ./tools/manage-py.sh -y <environment_file> loaddata --format=json -
+cat <fixtures_file> | ./tools/manage-py.sh <environment_file> -y loaddata --format=json -
 ```
 
 Note that the `-y` flag overrides the safety question when you attempt to rund the command on a production environment. The trailing dash `-` is required for Django to pick up the stream from stdin.
