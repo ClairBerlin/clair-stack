@@ -14,21 +14,24 @@ services:
       - '--certificatesResolvers.leresolver.acme.email=jan@jawebada.de'
       - '--certificatesResolvers.leresolver.acme.storage=/etc/traefik/acme/acme.json'
       - '--certificatesResolvers.leresolver.acme.dnsChallenge=true'
-      - '--certificatesResolvers.leresolver.acme.dnsChallenge.provider=inwx'
+      - '--certificatesResolvers.leresolver.acme.dnsChallenge.provider=netcup'
       - '--certificatesResolvers.leresolver.acme.caServer=https://acme-v02.api.letsencrypt.org/directory'
     # - '--certificatesResolvers.leresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory'
     ports:
       - target: 443
         published: 443
     secrets:
-      - inwx_password
+      - netcup_api_key
+      - netcup_api_password
+      - netcup_customer_number
     volumes:
       - "certificates:/etc/traefik/acme"
     environment:
-      - INWX_POLLING_INTERVAL=30
-      - INWX_PROPAGATION_TIMEOUT=1200
-      - INWX_USERNAME=jawebada
-      - INWX_PASSWORD_FILE=/run/secrets/inwx_password
+      - NETCUP_POLLING_INTERVAL=30
+      - NETCUP_PROPAGATION_TIMEOUT=1200
+      - NETCUP_API_KEY_FILE=/run/secrets/netcup_api_key
+      - NETCUP_API_PASSWORD_FILE=/run/secrets/netcup_api_password
+      - NETCUP_CUSTOMER_NUMBER_FILE=/run/secrets/netcup_customer_number
 
   static_frontend:
     deploy:
@@ -51,9 +54,13 @@ services:
         - traefik.http.routers.managair-server.tls.certresolver=leresolver
 
 secrets:
-  # The password for the jawebada INWX account
-  inwx_password:
-    file: secrets/inwx-password.txt
+  # The password for the clair-berlin netcup account
+  netcup_api_key:
+    file: secrets/netcup-api-key.txt
+  netcup_api_password:
+    file: secrets/netcup-api-password.txt
+  netcup_customer_number:
+    file: secrets/netcup-customer-number.txt
 
 volumes:
   certificates:
