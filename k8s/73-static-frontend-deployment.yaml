@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: static-frontend
+  name: static-frontend
+  namespace: clair-berlin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-frontend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: static-frontend
+    spec:
+      containers:
+        - image: clairberlin/website:15
+          name: static-frontend
+          resources: {}
+      restartPolicy: Always

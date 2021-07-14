@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: static-frontend
+  namespace: clair-berlin
+spec:
+  selector:
+    app: static-frontend
+  ports:
+    - port: 80

@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-map
+  namespace: clair-berlin
+data:
+  clair-domain: "clair-berlin.de"
+  debug: "0"
+  sentry: "1"
+  debug-toolbar: "0"
+  django-log-level: "WARNING"
+  django-db-log-level: "WARNING"
+  log-level: "WARNING"
+  managair-db-migrate: "true"
+  managair-collect-static-files: "true"
+  ingestair-db-migrate: "false"
+  sql-database: "managairdb_dev"
+  sql-user: "managair_dev"
+  email-host: "mx2ed5.netcup.net"
+  email-port: "587"
+  email-host-user: "clair-sender@clair-berlin.de"
+  email-use-tls: "True"
+  default-from-email: "kontakt@clair-berlin.de"
