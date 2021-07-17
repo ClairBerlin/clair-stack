@@ -22,18 +22,18 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: sql-database
+                  name: clair-config-map
+                  key: SQL_DATABASE
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: sql-password
-                  key: sql-password
+                  name: clair-secret
+                  key: sql-password.txt
             - name: POSTGRES_USER
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: sql-user
+                  name: clair-config-map
+                  key: SQL_USER
           image: postgres:13.1
           name: db
           resources: {}

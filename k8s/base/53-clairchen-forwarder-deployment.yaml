@@ -2,41 +2,39 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: ers-forwarder
-  name: ers-forwarder
+    app: clairchen-forwarder
+  name: clairchen-forwarder
   namespace: clair-berlin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ers-forwarder
+      app: clairchen-forwarder
   strategy: {}
   template:
     metadata:
       labels:
-        app: ers-forwarder
+        app: clairchen-forwarder
     spec:
       containers:
         - env:
             - name: CLAIR_API_ROOT
               value: "http://ingestair:8888/ingest/v1/"
             - name: CLAIR_MODE
-              value: "ers-forward"
+              value: "clairchen-forward"
             - name: CLAIR_TTN_ACCESS_KEY_FILE
-              value: "/var/secrets/ers-access-key/ers-access-key"
+              value: "/var/secrets/clair-secret/clairchen-forwarder-access-key.txt"
             - name: CLAIR_TTN_APP_ID
-              value: "clair-berlin-ers-co2"
+              value: "clairberlinproto"
           image: clairberlin/clairttn:1
-          name: ers-forwarder
+          name: clairchen-forwarder
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/ers-access-key"
-              name: ers-access-key
+            - mountPath: "/var/secrets/clair-secret"
+              name: clair-secret
+              readOnly: true
       restartPolicy: Always
       volumes:
-        - name: ers-access-key
+        - name: clair-secret
           secret:
-            items:
-              - key: ers-access-key
-                path: ers-access-key
-            secretName: ers-access-key
+            secretName: clair-secret
