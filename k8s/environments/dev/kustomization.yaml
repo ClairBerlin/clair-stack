@@ -9,14 +9,36 @@ configMapGenerator:
       - config.env
 
 secretGenerator:
-  - name: clair-secret
+  - name: db-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/sql-password.txt
+  - name: managair-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/managair-secret-key.txt
+      - secrets/sql-password.txt
+      - secrets/sentry-url.txt
+      - secrets/smtp-password.txt
+  - name: ingestair-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/ingestair-secret-key.txt
+      - secrets/sql-password.txt
+      - secrets/smtp-password.txt
+  - name: clairchen-forwarder-secret
     namespace: clair-berlin
     behavior: replace
     files:
       - secrets/clairchen-forwarder-access-key.txt
+  - name: ers-forwarder-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
       - secrets/ers-forwarder-access-key.txt
-      - secrets/ingestair-secret-key.txt
-      - secrets/managair-secret-key.txt
-      - secrets/sentry-url.txt
-      - secrets/smtp-password.txt
-      - secrets/sql-password.txt
+
+
+  
