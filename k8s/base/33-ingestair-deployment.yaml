@@ -25,28 +25,28 @@ spec:
             - 0.0.0.0:8888
           env:
             - name: SECRET_KEY_FILE
-              value: "/var/secrets/ingestair-secret-key/ingestair-secret-key"
+              value: "/var/secrets/clair-secret/ingestair-secret-key.txt"
             - name: SENTRY
               value: "0"
             - name: SENTRY_URL_FILE
-              value: "/var/secrets/sentry-url/sentry-url"
+              value: "/var/secrets/clair-secret/sentry-url.txt"
             - name: DEBUG
               value: "0"
             - name: DJANGO_LOG_LEVEL
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: django-log-level
+                  name: clair-config-map
+                  key: DJANGO_LOG_LEVEL
             - name: DJANGO_DB_LOG_LEVEL
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: django-db-log-level
+                  name: clair-config-map
+                  key: DJANGO_DB_LOG_LEVEL
             - name: LOG_LEVEL
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: log-level
+                  name: clair-config-map
+                  key: LOG_LEVEL
             - name: SQL_ENGINE
               value: "django.db.backends.postgresql"
             - name: SQL_HOST
@@ -56,15 +56,15 @@ spec:
             - name: SQL_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: sql-database
+                  name: clair-config-map
+                  key: SQL_DATABASE
             - name: SQL_USER
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: sql-user
+                  name: clair-config-map
+                  key: SQL_USER
             - name: SQL_PASSWORD_FILE
-              value: "/var/secrets/sql-password/sql-password"
+              value: "/var/secrets/clair-secret/sql-password.txt"
           # XXX why doesn't this work?
           # - name: SQL_PASSWORD
           #   valueFrom:
@@ -76,8 +76,8 @@ spec:
             - name: DB_MIGRATE
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: ingestair-db-migrate
+                  name: clair-config-map
+                  key: INGESTAIR_DB_MIGRATE
             - name: COLLECT_STATIC_FILES
               value: "false"
             - name: NODE_FIDELITY
@@ -87,69 +87,39 @@ spec:
             - name: EMAIL_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: email-host
+                  name: clair-config-map
+                  key: EMAIL_HOST
             - name: EMAIL_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: email-port
+                  name: clair-config-map
+                  key: EMAIL_PORT
             - name: EMAIL_HOST_USER
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: email-host-user
+                  name: clair-config-map
+                  key: EMAIL_HOST_USER
             - name: EMAIL_HOST_PASSWORD_FILE
-              value: "/var/secrets/smtp-password/smtp-password"
+              value: "/var/secrets/clair-secret/smtp-password.txt"
             - name: EMAIL_USE_TLS
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: email-use-tls
+                  name: clair-config-map
+                  key: EMAIL_USE_TLS
             - name: DEFAULT_FROM_EMAIL
               valueFrom:
                 configMapKeyRef:
-                  name: config-map
-                  key: default-from-email
+                  name: clair-config-map
+                  key: DEFAULT_FROM_EMAIL
           image: clairberlin/managair:0.6.5
           name: ingestair-server
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/ingestair-secret-key"
-              name: ingestair-secret-key
-              readOnly: true
-            - mountPath: "/var/secrets/sentry-url"
-              name: sentry-url
-              readOnly: true
-            - mountPath: "/var/secrets/sql-password"
-              name: sql-password
-              readOnly: true
-            - mountPath: "/var/secrets/smtp-password"
-              name: smtp-password
+            - mountPath: "/var/secrets/clair-secret"
+              name: clair-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: ingestair-secret-key
+        - name: clair-secret
           secret:
-            items:
-              - key: ingestair-secret-key
-                path: ingestair-secret-key
-            secretName: ingestair-secret-key
-        - name: sentry-url
-          secret:
-            items:
-              - key: sentry-url
-                path: sentry-url
-            secretName: sentry-url
-        - name: sql-password
-          secret:
-            items:
-              - key: sql-password
-                path: sql-password
-            secretName: sql-password
-        - name: smtp-password
-          secret:
-            items:
-              - key: smtp-password
-                path: smtp-password
-            secretName: smtp-password
+            secretName: clair-secret
