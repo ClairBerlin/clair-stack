@@ -9,59 +9,13 @@ We use [Kustomize](https://kustomize.io/) to configure the stack for different e
 You can use the following shell script to generate the skeleton of a new environment (set ENV_NAME accordingly):
 
 ```shell
-ENV_NAME=staging
+ENV_NAME=my-env
 ENV_DIR=environmemnts/$ENV_NAME
 mkdir -p $ENV_DIR
-cp -R base/config.env base/secrets $ENV_DIR
+cp -R base/config.env base/secrets environments/dev/kustomization.yaml $ENV_DIR
 ```
 
-After that, create `$ENV_DIR/kustomization.yaml` with the following content (or copy `environments/dev/kustomization.yaml`):
-
-```yaml
-resources:
-  - ../../base
-
-configMapGenerator:
-  - name: clair-config-map
-    namespace: clair-berlin
-    behavior: replace
-    envs:
-      - config.env
-
-secretGenerator:
-  - name: db-secret
-    namespace: clair-berlin
-    behavior: replace
-    files:
-      - secrets/sql-password.txt
-  - name: managair-secret
-    namespace: clair-berlin
-    behavior: replace
-    files:
-      - secrets/managair-secret-key.txt
-      - secrets/sql-password.txt
-      - secrets/sentry-url.txt
-      - secrets/smtp-password.txt
-  - name: ingestair-secret
-    namespace: clair-berlin
-    behavior: replace
-    files:
-      - secrets/ingestair-secret-key.txt
-      - secrets/sql-password.txt
-      - secrets/smtp-password.txt
-  - name: clairchen-forwarder-secret
-    namespace: clair-berlin
-    behavior: replace
-    files:
-      - secrets/clairchen-forwarder-access-key.txt
-  - name: ers-forwarder-secret
-    namespace: clair-berlin
-    behavior: replace
-    files:
-      - secrets/ers-forwarder-access-key.txt
-  ```
-
-Finally, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
+After that, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
 ## Deployment
 
 To deploy an environment do the following:
