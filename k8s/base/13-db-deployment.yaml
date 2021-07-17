@@ -27,7 +27,7 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: clair-secret
+                  name: db-secret
                   key: sql-password.txt
             - name: POSTGRES_USER
               valueFrom:
