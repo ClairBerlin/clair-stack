@@ -4,7 +4,7 @@ The `base` directory contains Kubernetes manifest files to deploy the Clair Berl
 
 ## Environment and Configuration Management
 
-We use [Kustomize](https://kustomize.io/) to configure the stack for different environments. An environment's configuration consists of a set of environment variables used to generate a config map called `clair-config-map` and a set of password files used to generate a secret called `clair-secret`. The secret files in `base/secrets` do not contain any real passwords. You will have to create a [Kustomize overlay](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#bases-and-overlays) to override them.
+We use [Kustomize](https://kustomize.io/) to configure the stack for different environments. An environment's configuration consists of a set of environment variables used to generate a config map called `clair-config-map` and a set of password files used to generate service-specific secrets. The secret files in `base/secrets` do not contain any real passwords. You will have to create a [Kustomize overlay](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/#bases-and-overlays) to override them.
 
 You can use the following shell script to generate the skeleton of a new environment (set ENV_NAME accordingly):
 
@@ -15,7 +15,7 @@ mkdir -p $ENV_DIR
 cp -R base/config.env base/secrets $ENV_DIR
 ```
 
-After that, create `$ENV_DIR/kustomization.yaml` with the following content:
+After that, create `$ENV_DIR/kustomization.yaml` with the following content (or copy `environments/dev/kustomization.yaml`):
 
 ```yaml
 resources:
