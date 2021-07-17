@@ -49,7 +49,7 @@ To deploy an environment do the following:
 
 1) activate the target cluster's context using
 ```shell
-kubectl config use-context $STAGING_CONTEXT
+kubectl config use-context $ENV_CONTEXT
 ```
 2) apply the kustomized manifest files
 ```shell
