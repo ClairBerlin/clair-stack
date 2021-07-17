@@ -15,7 +15,34 @@ mkdir -p $ENV_DIR
 cp -R base/config.env base/secrets $ENV_DIR
 ```
 
-After that, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
+After that, create `$ENV_DIR/kustomization.yaml` with the following content:
+
+```yaml
+resources:
+  - ../../base
+
+configMapGenerator:
+  - name: clair-config-map
+    namespace: clair-berlin
+    behavior: replace
+    envs:
+      - config.env
+
+secretGenerator:
+  - name: clair-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/clairchen-forwarder-access-key.txt
+      - secrets/ers-forwarder-access-key.txt
+      - secrets/ingestair-secret-key.txt
+      - secrets/managair-secret-key.txt
+      - secrets/sentry-url.txt
+      - secrets/smtp-password.txt
+      - secrets/sql-password.txt
+```
+
+Finally, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
 ## Deployment
 
 To deploy an environment do the following:
