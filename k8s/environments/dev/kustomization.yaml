@@ -1,0 +1,22 @@
+resources:
+  - ../../base
+
+configMapGenerator:
+  - name: clair-config-map
+    namespace: clair-berlin
+    behavior: replace
+    envs:
+      - config.env
+
+secretGenerator:
+  - name: clair-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/clairchen-forwarder-access-key.txt
+      - secrets/ers-forwarder-access-key.txt
+      - secrets/ingestair-secret-key.txt
+      - secrets/managair-secret-key.txt
+      - secrets/sentry-url.txt
+      - secrets/smtp-password.txt
+      - secrets/sql-password.txt
