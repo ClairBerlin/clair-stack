@@ -25,11 +25,11 @@ spec:
             - 0.0.0.0:8888
           env:
             - name: SECRET_KEY_FILE
-              value: "/var/secrets/clair-secret/ingestair-secret-key.txt"
+              value: "/var/secrets/ingestair-secret/ingestair-secret-key.txt"
             - name: SENTRY
               value: "0"
             - name: SENTRY_URL_FILE
-              value: "/var/secrets/clair-secret/sentry-url.txt"
+              value: "/var/secrets/ingestair-secret/sentry-url.txt"
             - name: DEBUG
               value: "0"
             - name: DJANGO_LOG_LEVEL
@@ -64,7 +64,7 @@ spec:
                   name: clair-config-map
                   key: SQL_USER
             - name: SQL_PASSWORD_FILE
-              value: "/var/secrets/clair-secret/sql-password.txt"
+              value: "/var/secrets/ingestair-secret/sql-password.txt"
           # XXX why doesn't this work?
           # - name: SQL_PASSWORD
           #   valueFrom:
@@ -100,7 +100,7 @@ spec:
                   name: clair-config-map
                   key: EMAIL_HOST_USER
             - name: EMAIL_HOST_PASSWORD_FILE
-              value: "/var/secrets/clair-secret/smtp-password.txt"
+              value: "/var/secrets/ingestair-secret/smtp-password.txt"
             - name: EMAIL_USE_TLS
               valueFrom:
                 configMapKeyRef:
@@ -115,11 +115,11 @@ spec:
           name: ingestair-server
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/clair-secret"
-              name: clair-secret
+            - mountPath: "/var/secrets/ingestair-secret"
+              name: ingestair-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: clair-secret
+        - name: ingestair-secret
           secret:
-            secretName: clair-secret
+            secretName: ingestair-secret

@@ -23,18 +23,18 @@ spec:
             - name: CLAIR_MODE
               value: "clairchen-forward"
             - name: CLAIR_TTN_ACCESS_KEY_FILE
-              value: "/var/secrets/clair-secret/clairchen-forwarder-access-key.txt"
+              value: "/var/secrets/clairchen-forwarder-secret/clairchen-forwarder-access-key.txt"
             - name: CLAIR_TTN_APP_ID
               value: "clairberlinproto"
           image: clairberlin/clairttn:1
           name: clairchen-forwarder
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/clair-secret"
-              name: clair-secret
+            - mountPath: "/var/secrets/clairchen-forwarder-secret"
+              name: clairchen-forwarder-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: clair-secret
+        - name: clairchen-forwarder-secret
           secret:
-            secretName: clair-secret
+            secretName: clairchen-forwarder-secret

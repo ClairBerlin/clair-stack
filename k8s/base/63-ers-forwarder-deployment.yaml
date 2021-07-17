@@ -23,18 +23,18 @@ spec:
             - name: CLAIR_MODE
               value: "ers-forward"
             - name: CLAIR_TTN_ACCESS_KEY_FILE
-              value: "/var/secrets/clair-secret/ers-forwarder-access-key.txt"
+              value: "/var/secrets/ers-forwarder-secret/ers-forwarder-access-key.txt"
             - name: CLAIR_TTN_APP_ID
               value: "clair-berlin-ers-co2"
           image: clairberlin/clairttn:1
           name: ers-forwarder
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/clair-secret"
-              name: clair-secret
+            - mountPath: "/var/secrets/ers-forwarder-secret"
+              name: ers-forwarder-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: clair-secret
+        - name: ers-forwarder-secret
           secret:
-            secretName: clair-secret
+            secretName: ers-forwarder-secret
