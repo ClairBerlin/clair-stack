@@ -84,8 +84,13 @@ spec:
                   key: MANAGAIR_COLLECT_STATIC_FILES
             - name: NODE_FIDELITY
               value: "1"
+            - name: CLAIR_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: CLAIR_DOMAIN
             - name: DJANGO_ALLOWED_HOSTS
-              value: " localhost 127.0.0.1 [::1]"
+              value: " $(CLAIR_DOMAIN) localhost 127.0.0.1 [::1]"
             - name: EMAIL_HOST
               valueFrom:
                 configMapKeyRef:

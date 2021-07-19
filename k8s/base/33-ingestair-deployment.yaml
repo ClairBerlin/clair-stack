@@ -83,7 +83,7 @@ spec:
             - name: NODE_FIDELITY
               value: "1"
             - name: DJANGO_ALLOWED_HOSTS
-              value: "ingestair localhost 127.0.0.1 [::1]"
+              value: " ingestair localhost 127.0.0.1 [::1]"
             - name: EMAIL_HOST
               valueFrom:
                 configMapKeyRef:
