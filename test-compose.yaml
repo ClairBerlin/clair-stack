@@ -1,0 +1,118 @@
+version: "3.8"
+
+services:
+  managair_server:
+    image: clairberlin/managair:0.6.5
+    command: python manage.py runserver 0.0.0.0:8888
+    depends_on:
+      - db
+      - redis
+    # networks:
+    #   - frontend
+    #   - backend
+    environment:
+      - SECRET_KEY_FILE=/run/secrets/managair_secret_key
+      - SENTRY
+      - SENTRY_URL_FILE=/run/secrets/sentry_url
+      - DEBUG
+      - DJANGO_LOG_LEVEL
+      - DJANGO_DB_LOG_LEVEL
+      - LOG_LEVEL
+      - SQL_DATABASE
+      - SQL_USER
+      - SQL_PASSWORD_FILE=/run/secrets/sql_password
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgresql
+      - DB_MIGRATE=${MANAGAIR_DB_MIGRATE-false}
+      - COLLECT_STATIC_FILES=${MANAGAIR_COLLECT_STATIC_FILES-false}
+      - NODE_FIDELITY=1
+      - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
+      - EMAIL_HOST
+      - EMAIL_PORT
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password
+      - EMAIL_USE_TLS
+      - DEFAULT_FROM_EMAIL
+    secrets:
+      - managair_secret_key
+      - sql_password
+      - smtp_password
+      - sentry_url
+    ports:
+      # For the application's endpoints
+      - target: 8888
+        published: 8888
+      # To attach to the debugger
+      - target: 3000
+        published: 3000
+      - target: 3001
+        published: 3001
+
+  db:
+    image: postgres:13.1
+    environment:
+      - POSTGRES_DB=${SQL_DATABASE}
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+    # networks:
+    #   - backend
+    volumes:
+      - type: volume
+        source: managair-data
+        target: /var/lib/postgresql/data
+    ports:
+      - target: 5432
+        published: 5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL
+      - PGADMIN_DEFAULT_PASSWORD
+    ports:
+      # For the application's endpoints
+      - target: 80
+        published: 8889
+    depends_on:
+      - db
+
+  redis:
+    image: redis:6.0.9
+    # networks:
+    #   - backend
+
+volumes:
+  managair-data:
+    external: true
+
+secrets:
+  # The django secret keys, used to sign tokens (among other uses).
+  managair_secret_key:
+    file: secrets/managair-secret-key.txt
+
+  # The password to connect to the PostgreSQL database.
+  sql_password:
+    file: secrets/sql-password.txt
+
+  # The password to connecto to the SMTP mail server.
+  smtp_password:
+    file: secrets/smtp-password.txt
+
+  # The secret URL to report errors to Sentry.io.
+  sentry_url:
+    file: secrets/sentry-url.txt
+# networks:
+#   frontend:
+#     driver: overlay
+#     internal: false
+#     name: clair_frontend
+#     # For Traefik to refer to this network, we must give it an additional
+#     # name, because the regular network name ("frontend") will be prefixed by
+#     # docker swarm with the stack name ("mystack_frontend").
+#     # See: https://github.com/traefik/traefik/issues/2806#issuecomment-363251746
+#   backend:
+#     driver: overlay
+#     internal: true
+#     name: clair_backend
