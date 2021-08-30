@@ -1,16 +1,15 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   reverse_proxy:
     image: traefik:v2.3
     command:
-      - '--providers.docker=true'
-      - '--providers.docker.swarmMode=true'
-      - '--providers.docker.exposedbydefault=false'
-      - '--providers.docker.network=clair_frontend'
-      - '--accesslog=true'
-      - '--entryPoints.web.address=:80'
+      - "--providers.docker=true"
+      - "--providers.docker.swarmMode=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=clair_frontend"
+      - "--accesslog=true"
+      - "--entryPoints.web.address=:80"
     depends_on:
       - static_frontend
       - managair_server
@@ -114,32 +113,6 @@ services:
       - ingestair_secret_key
       - sql_password
 
-  ttnv2_mqtt_broker:
-    image: eclipse-mosquitto:latest
-    # Tell the entrypoint script to take the configuration from a docker secret
-    command: ["/usr/sbin/mosquitto", "-c", "/run/secrets/ttnv2_mqtt_broker_config"]
-    secrets:
-      - ttnv2_mqtt_broker_config
-    networks:
-      - backend
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager # For bind-mounts on docker-swarm to work.
-  
-  ttnv3_mqtt_broker:
-    image: eclipse-mosquitto:latest
-    # Tell the entrypoint script to take the configuration from a docker secret
-    command: ["/usr/sbin/mosquitto", "-c", "/run/secrets/ttnv3_mqtt_broker_config"]
-    secrets:
-      - ttnv3_mqtt_broker_config
-    networks:
-      - backend
-    deploy:
-      placement:
-        constraints:
-          - node.role == manager # For bind-mounts on docker-swarm to work.
-
   clairchen_forwarder:
     image: clairberlin/clairttn:1
     depends_on:
@@ -189,10 +162,6 @@ services:
       - backend
 
 secrets:
-  # The access key for the clairchen-test TTN-V3 application.
-  clairchen_v3api_key:
-    file: secrets/clairchen-test-ttnv3-apikey.txt
-
   # The access key for the clairberlinproto TTN application.
   clairchen_access_key:
     file: secrets/clairchen-access-key.txt
@@ -200,16 +169,6 @@ secrets:
   # The access key for the clair-berlin-ers-co2 TTN application.
   ers_access_key:
     file: secrets/ers-access-key.txt
-
-  # The configuration file for the TTN-V2 MQTT bridge,
-  # which includes the clair-berlin-ers-co2 TTN access key
-  ttnv2_mqtt_broker_config:
-    file: secrets/mosquitto_ttnv2.conf
-
-  # The configuration file for the TTN-V3 MQTT bridge,
-  # which includes the clairchen-test api key
-  ttnv3_mqtt_broker_config:
-    file: secrets/mosquitto_ttnv3.conf
 
   # The django secret keys, used to sign tokens (among other uses).
   managair_secret_key:
@@ -224,14 +183,14 @@ secrets:
   # The password to connecto to the SMTP mail server.
   smtp_password:
     file: secrets/smtp-password.txt
-  
+
   # The secret URL to report errors to Sentry.io.
   sentry_url:
     file: secrets/sentry-url.txt
 
 volumes:
-    managair-data:
-      external: true
+  managair-data:
+    external: true
 
 networks:
   frontend:
