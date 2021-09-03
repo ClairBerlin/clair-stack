@@ -76,32 +76,6 @@ services:
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
       - CLAIR_TTN_STACK=ttn-v3
 
-  # ttnv2_mqtt_broker:
-  #   image: eclipse-mosquitto:latest
-  #   # Tell the entrypoint script to take the configuration from a docker secret
-  #   command: ["/usr/sbin/mosquitto", "-c", "/run/secrets/ttnv2_mqtt_broker_config"]
-  #   secrets:
-  #     - ttnv2_mqtt_broker_config
-  #   networks:
-  #     - backend
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #         - node.role == manager # For bind-mounts on docker-swarm to work.
-
-  # ttnv3_mqtt_broker:
-  #   image: eclipse-mosquitto:latest
-  #   # Tell the entrypoint script to take the configuration from a docker secret
-  #   command: ["/usr/sbin/mosquitto", "-c", "/run/secrets/ttnv3_mqtt_broker_config"]
-  #   secrets:
-  #     - ttnv3_mqtt_broker_config
-  #   networks:
-  #     - backend
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #         - node.role == manager # For bind-mounts on docker-swarm to work.
-
 secrets:
   # The access key for the clairchen-test TTN-V3 application.
   ers_v3_api_key:
@@ -109,12 +83,3 @@ secrets:
   # The access key for the clairchen-test TTN-V3 application.
   clairchen_v3_api_key:
     file: secrets/clairchen-test-ttnv3-apikey.txt
-  # The configuration file for the TTN-V2 MQTT bridge,
-  # which includes the clair-berlin-ers-co2 TTN access key
-  ttnv2_mqtt_broker_config:
-    file: secrets/mosquitto_ttnv2.conf
-
-  # The configuration file for the TTN-V3 MQTT bridge,
-  # which includes the clairchen-test api key
-  ttnv3_mqtt_broker_config:
-    file: secrets/mosquitto_ttnv3.conf
