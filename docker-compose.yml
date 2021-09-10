@@ -113,8 +113,9 @@ services:
       - ingestair_secret_key
       - sql_password
 
-  clairchen_forwarder:
-    image: clairberlin/clairttn:1
+  # For the TTN Stack V2
+  clairchen_forwarder_v2:
+    image: clairberlin/clairttn:ttnv23-test
     depends_on:
       - ingestair
     networks:
@@ -127,9 +128,11 @@ services:
       - CLAIR_TTN_APP_ID=clairberlinproto
       - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/clairchen_access_key
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+      - CLAIR_TTN_STACK=ttn-v2
 
-  ers_forwarder:
-    image: clairberlin/clairttn:1
+  # For the TTN Stack V2
+  ers_forwarder_v2:
+    image: clairberlin/clairttn:ttnv23-test
     depends_on:
       - ingestair
     networks:
@@ -142,6 +145,41 @@ services:
       - CLAIR_TTN_APP_ID=clair-berlin-ers-co2
       - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/ers_access_key
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+      - CLAIR_TTN_STACK=ttn-v2
+
+  # For the TTN Stack V3
+  clairchen_forwarder_v3:
+    image: clairberlin/clairttn:ttnv23-test
+    depends_on:
+      - ingestair
+    networks:
+      - frontend
+      - backend
+    secrets:
+      - clairchen_v3_api_key
+    environment:
+      - CLAIR_MODE=clairchen-forward
+      - CLAIR_TTN_APP_ID=clairchen-test
+      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/clairchen_v3_api_key
+      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+      - CLAIR_TTN_STACK=ttn-v3
+
+  # For the TTN Stack V3
+  ers_forwarder_v3:
+    image: clairberlin/clairttn:ttnv23-test
+    depends_on:
+      - ingestair
+    networks:
+      - frontend
+      - backend
+    secrets:
+      - ers_v3_api_key
+    environment:
+      - CLAIR_MODE=ers-forward
+      - CLAIR_TTN_APP_ID=elsys-ers-co2
+      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/ers_v3_api_key
+      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
+      - CLAIR_TTN_STACK=ttn-v3
 
   db:
     image: postgres:13.1
@@ -162,13 +200,21 @@ services:
       - backend
 
 secrets:
-  # The access key for the clairberlinproto TTN application.
+  # The access key for the clairberlinproto V2 TTN application.
   clairchen_access_key:
     file: secrets/clairchen-access-key.txt
 
-  # The access key for the clair-berlin-ers-co2 TTN application.
+  # The access key for the clair-berlin-ers-co2 V2 TTN application.
   ers_access_key:
     file: secrets/ers-access-key.txt
+
+  # The access key for the clairchen-test TTN-V3 application.
+  clairchen_v3_api_key:
+    file: secrets/clairchen-test-ttnv3-apikey.txt
+
+  # The access key for the elsys-ers-co2 TTN-V3 application.
+  ers_v3_api_key:
+    file: secrets/elsys-ers-co2-ttnv3-apikey.txt
 
   # The django secret keys, used to sign tokens (among other uses).
   managair_secret_key:
