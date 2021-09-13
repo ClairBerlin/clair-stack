@@ -115,7 +115,7 @@ services:
 
   # For the TTN Stack V2
   clairchen_forwarder_v2:
-    image: clairberlin/clairttn:3
+    image: clairberlin/clairttn:4
     depends_on:
       - ingestair
     networks:
@@ -132,7 +132,7 @@ services:
 
   # For the TTN Stack V2
   ers_forwarder_v2:
-    image: clairberlin/clairttn:3
+    image: clairberlin/clairttn:4
     depends_on:
       - ingestair
     networks:
@@ -149,7 +149,7 @@ services:
 
   # For the TTN Stack V3
   clairchen_forwarder_v3:
-    image: clairberlin/clairttn:3
+    image: clairberlin/clairttn:4
     depends_on:
       - ingestair
     networks:
@@ -166,7 +166,7 @@ services:
 
   # For the TTN Stack V3
   ers_forwarder_v3:
-    image: clairberlin/clairttn:3
+    image: clairberlin/clairttn:4
     depends_on:
       - ingestair
     networks:
