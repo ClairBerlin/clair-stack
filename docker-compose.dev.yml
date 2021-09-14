@@ -1,14 +1,13 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
   pgadmin:
     image: dpage/pgadmin4
     environment:
       - PGADMIN_DEFAULT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD
     ports:
-      # For the application's endpoints
+      # For access from th elocal dev machine
       - target: 80
         published: 8889
     depends_on:
@@ -27,7 +26,7 @@ services:
       - type: bind
         source: ./managair/
         target: /code
-        consistency: delegated
+        # consistency: delegated
     ports:
       # For the application's endpoints
       - target: 8888
@@ -51,9 +50,7 @@ services:
     environment:
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-
-  clairchen_forwarder:
-    image: clairberlin/clairttn:latest
-
-  ers_forwarder:
-    image: clairberlin/clairttn:latest
+    ports:
+      # To ingest samples from applications on the local dev machine
+      - target: 8888
+        published: 8890
