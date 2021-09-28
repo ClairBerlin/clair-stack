@@ -29,6 +29,12 @@ spec:
             - name: CLAIR_TTN_STACK
               value: "ttn-v3"
           image: clairberlin/clairttn:5
+          livenessProbe:
+            exec:
+              command:
+                - /opt/clairttn/healthcheck.sh
+            initialDelaySeconds: 10
+            periodSeconds: 5
           name: ers-forwarder-v3
           resources: {}
           volumeMounts:
