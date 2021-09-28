@@ -9,8 +9,10 @@ resources:
   - 33-ingestair-deployment.yaml
   - 42-managair-service.yaml
   - 43-managair-deployment.yaml
-  - 53-clairchen-forwarder-deployment.yaml
-  - 63-ers-forwarder-deployment.yaml
+  - 53-clairchen-forwarder-v2-deployment.yaml
+  - 54-ers-forwarder-v2-deployment.yaml
+  - 55-clairchen-forwarder-v3-deployment.yaml
+  - 56-ers-forwarder-v3-deployment.yaml
   - 72-static-frontend-service.yaml
   - 73-static-frontend-deployment.yaml
   - 99-clair-berlin-ingress.yaml
@@ -39,14 +41,19 @@ secretGenerator:
       - secrets/ingestair-secret-key.txt
       - secrets/smtp-password.txt
       - secrets/sql-password.txt
-  - name: clairchen-forwarder-secret
+  - name: clairchen-forwarder-v2-secret
     namespace: clair-berlin
     files:
-      - secrets/clairchen-forwarder-access-key.txt
-  - name: ers-forwarder-secret
+      - secrets/clairchen-forwarder-v2-access-key.txt
+  - name: ers-forwarder-v2-secret
     namespace: clair-berlin
     files:
-      - secrets/ers-forwarder-access-key.txt
-
-
-  
+      - secrets/ers-forwarder-v3-access-key.txt
+  - name: clairchen-forwarder-v3-secret
+    namespace: clair-berlin
+    files:
+      - secrets/clairchen-forwarder-v3-access-key.txt
+  - name: ers-forwarder-v3-secret
+    namespace: clair-berlin
+    files:
+      - secrets/ers-forwarder-v3-access-key.txt
