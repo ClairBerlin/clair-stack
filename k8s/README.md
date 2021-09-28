@@ -16,15 +16,19 @@ cp -R base/config.env base/secrets environments/dev/kustomization.yaml $ENV_DIR
 ```
 
 After that, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
+
 ## Deployment
 
 To deploy an environment do the following:
 
 1) activate the target cluster's context using
+
 ```shell
 kubectl config use-context $ENV_CONTEXT
 ```
+
 2) apply the kustomized manifest files
+
 ```shell
-kubectly apply -k $ENV_DIR
+kubectl apply -k $ENV_DIR
 ```
