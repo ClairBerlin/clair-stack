@@ -29,16 +29,23 @@ secretGenerator:
       - secrets/ingestair-secret-key.txt
       - secrets/sql-password.txt
       - secrets/smtp-password.txt
-  - name: clairchen-forwarder-secret
+  - name: clairchen-forwarder-v2-secret
     namespace: clair-berlin
     behavior: replace
     files:
-      - secrets/clairchen-forwarder-access-key.txt
-  - name: ers-forwarder-secret
+      - secrets/clairchen-forwarder-v2-access-key.txt
+  - name: ers-forwarder-v2-secret
     namespace: clair-berlin
     behavior: replace
     files:
-      - secrets/ers-forwarder-access-key.txt
-
-
-  
+      - secrets/ers-forwarder-v2-access-key.txt
+  - name: clairchen-forwarder-v3-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/clairchen-forwarder-v3-access-key.txt
+  - name: ers-forwarder-v3-secret
+    namespace: clair-berlin
+    behavior: replace
+    files:
+      - secrets/ers-forwarder-v3-access-key.txt

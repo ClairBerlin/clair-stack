@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: clairchen-forwarder
-  name: clairchen-forwarder
+    app: clairchen-forwarder-v2
+  name: clairchen-forwarder-v2
   namespace: clair-berlin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: clairchen-forwarder
+      app: clairchen-forwarder-v2
   strategy: {}
   template:
     metadata:
       labels:
-        app: clairchen-forwarder
+        app: clairchen-forwarder-v2
     spec:
       containers:
         - env:
@@ -23,18 +23,20 @@ spec:
             - name: CLAIR_MODE
               value: "clairchen-forward"
             - name: CLAIR_TTN_ACCESS_KEY_FILE
-              value: "/var/secrets/clairchen-forwarder-secret/clairchen-forwarder-access-key.txt"
+              value: "/var/secrets/clairchen-forwarder-v2-secret/clairchen-forwarder-v2-access-key.txt"
             - name: CLAIR_TTN_APP_ID
               value: "clairberlinproto"
-          image: clairberlin/clairttn:1
-          name: clairchen-forwarder
+            - name: CLAIR_TTN_STACK
+              value: "ttn-v2"
+          image: clairberlin/clairttn:5
+          name: clairchen-forwarder-v2
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/clairchen-forwarder-secret"
-              name: clairchen-forwarder-secret
+            - mountPath: "/var/secrets/clairchen-forwarder-v2-secret"
+              name: clairchen-forwarder-v2-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: clairchen-forwarder-secret
+        - name: clairchen-forwarder-v2-secret
           secret:
-            secretName: clairchen-forwarder-secret
+            secretName: clairchen-forwarder-v2-secret

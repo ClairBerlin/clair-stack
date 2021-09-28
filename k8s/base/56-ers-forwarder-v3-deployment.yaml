@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: ers-forwarder
-  name: ers-forwarder
+    app: ers-forwarder-v3
+  name: ers-forwarder-v3
   namespace: clair-berlin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ers-forwarder
+      app: ers-forwarder-v3
   strategy: {}
   template:
     metadata:
       labels:
-        app: ers-forwarder
+        app: ers-forwarder-v3
     spec:
       containers:
         - env:
@@ -23,18 +23,20 @@ spec:
             - name: CLAIR_MODE
               value: "ers-forward"
             - name: CLAIR_TTN_ACCESS_KEY_FILE
-              value: "/var/secrets/ers-forwarder-secret/ers-forwarder-access-key.txt"
+              value: "/var/secrets/ers-forwarder-v3-secret/ers-forwarder-v3-access-key.txt"
             - name: CLAIR_TTN_APP_ID
-              value: "clair-berlin-ers-co2"
-          image: clairberlin/clairttn:1
-          name: ers-forwarder
+              value: "elsys-ers-co2"
+            - name: CLAIR_TTN_STACK
+              value: "ttn-v3"
+          image: clairberlin/clairttn:5
+          name: ers-forwarder-v3
           resources: {}
           volumeMounts:
-            - mountPath: "/var/secrets/ers-forwarder-secret"
-              name: ers-forwarder-secret
+            - mountPath: "/var/secrets/ers-forwarder-v3-secret"
+              name: ers-forwarder-v3-secret
               readOnly: true
       restartPolicy: Always
       volumes:
-        - name: ers-forwarder-secret
+        - name: ers-forwarder-v3-secret
           secret:
-            secretName: ers-forwarder-secret
+            secretName: ers-forwarder-v3-secret
