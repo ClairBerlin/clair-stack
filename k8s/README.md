@@ -32,3 +32,9 @@ kubectl config use-context $ENV_CONTEXT
 ```shell
 kubectl apply -k $ENV_DIR
 ```
+
+To delete the stack call
+
+```shell
+kubectl delete -k $ENV_DIR
+```
