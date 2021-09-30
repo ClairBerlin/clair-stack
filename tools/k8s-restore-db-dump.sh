@@ -1,11 +1,13 @@
 #!/usr/bin/env zsh
 
-SQL_FILE=$1
+SQL_PATH=$1
 
-if [ -z "$SQL_FILE" -o ! -f $SQL_FILE ]; then
-	echo "file '$SQL_FILE' does not exist"
+if [ -z "$SQL_PATH" -o ! -f $SQL_PATH ]; then
+	echo "file '$SQL_PATH' does not exist"
 	exit 1
 fi
+
+SQL_FILE=$(basename $SQL_PATH)
 
 function scale_db_deployments () {
 	echo "scaling db deployments to $1"
@@ -19,7 +21,7 @@ scale_db_deployments 0
 DB_POD=$(kubectl --namespace clair-berlin get pod -l app=db -o name)
 DB_POD=${DB_POD#pod/}
 
-kubectl --namespace clair-berlin cp $SQL_FILE clair-berlin/$DB_POD:/tmp
+kubectl --namespace clair-berlin cp $SQL_PATH clair-berlin/$DB_POD:/tmp
 kubectl --namespace clair-berlin exec $DB_POD -- dropdb -U managair_dev managairdb_dev
 kubectl --namespace clair-berlin exec $DB_POD -- createdb -U managair_dev managairdb_dev
 kubectl --namespace clair-berlin exec $DB_POD -- bash -c "psql -U managair_dev managairdb_dev < /tmp/$SQL_FILE"
