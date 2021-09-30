@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: ingress
   namespace: clair-berlin
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - http:
