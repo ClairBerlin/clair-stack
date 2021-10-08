@@ -38,7 +38,7 @@ spec:
           name: db
           resources: {}
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql
               name: db-data
       restartPolicy: Always
       volumes:
