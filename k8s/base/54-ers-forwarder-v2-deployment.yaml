@@ -28,7 +28,7 @@ spec:
               value: "clair-berlin-ers-co2"
             - name: CLAIR_TTN_STACK
               value: "ttn-v2"
-          image: clairberlin/clairttn:5
+          image: clairberlin/clairttn:6
           livenessProbe:
             exec:
               command:

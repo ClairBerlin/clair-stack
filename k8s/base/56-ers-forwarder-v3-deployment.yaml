@@ -28,7 +28,7 @@ spec:
               value: "elsys-ers-co2"
             - name: CLAIR_TTN_STACK
               value: "ttn-v3"
-          image: clairberlin/clairttn:5
+          image: clairberlin/clairttn:6
           livenessProbe:
             exec:
               command:

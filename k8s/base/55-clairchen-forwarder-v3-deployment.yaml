@@ -28,7 +28,7 @@ spec:
               value: "clairchen-test"
             - name: CLAIR_TTN_STACK
               value: "ttn-v3"
-          image: clairberlin/clairttn:5
+          image: clairberlin/clairttn:6
           livenessProbe:
             exec:
               command:
