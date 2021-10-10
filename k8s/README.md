@@ -17,6 +17,10 @@ cp -R base/config.env base/secrets environments/dev/kustomization.yaml $ENV_DIR
 
 After that, edit `$ENV_DIR/config.env` and the files in `$ENV_DIR/secrets` to adapt the evironment's configuration.
 
+## cert-manager configuration
+
+The [SysEleven environment](environments/syseleven) contains an example how a cluster issuer and its corresponding annotation can be added to the Ingress object of the base layer.
+
 ## Deployment
 
 To deploy an environment do the following:
