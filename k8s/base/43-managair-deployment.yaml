@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: managair-server
+  name: managair-server
+  namespace: clair-berlin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: managair-server
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: managair-server
+    spec:
+      containers:
+        - args:
+            - python
+            - manage.py
+            - runserver
+            - 0.0.0.0:8888
+          env:
+            - name: SECRET_KEY_FILE
+              value: "/var/secrets/managair-secret/managair-secret-key.txt"
+            - name: SENTRY
+              value: "0"
+            - name: SENTRY_URL_FILE
+              value: "/var/secrets/managair-secret/sentry-url.txt"
+            - name: DEBUG
+              value: "0"
+            - name: DJANGO_LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: DJANGO_LOG_LEVEL
+            - name: DJANGO_DB_LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: DJANGO_DB_LOG_LEVEL
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: LOG_LEVEL
+            - name: SQL_ENGINE
+              value: "django.db.backends.postgresql"
+            - name: SQL_HOST
+              value: "db"
+            - name: SQL_PORT
+              value: "5432"
+            - name: SQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: SQL_DATABASE
+            - name: SQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: SQL_USER
+            - name: SQL_PASSWORD_FILE
+              value: "/var/secrets/managair-secret/sql-password.txt"
+          # XXX why doesn't this work?
+          # - name: SQL_PASSWORD
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: sql-password
+          #       key: sql-password
+            - name: DATABASE
+              value: "postgresql"
+            - name: DB_MIGRATE
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: MANAGAIR_DB_MIGRATE
+            - name: COLLECT_STATIC_FILES
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: MANAGAIR_COLLECT_STATIC_FILES
+            - name: NODE_FIDELITY
+              value: "1"
+            - name: CLAIR_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: CLAIR_DOMAIN
+            - name: DJANGO_ALLOWED_HOSTS
+              value: " $(CLAIR_DOMAIN) localhost 127.0.0.1 [::1]"
+            - name: EMAIL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: EMAIL_HOST
+            - name: EMAIL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: EMAIL_PORT
+            - name: EMAIL_HOST_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: EMAIL_HOST_USER
+            - name: EMAIL_HOST_PASSWORD_FILE
+              value: "/var/secrets/managair-secret/smtp-password.txt"
+            - name: EMAIL_USE_TLS
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: EMAIL_USE_TLS
+            - name: DEFAULT_FROM_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: DEFAULT_FROM_EMAIL
+          image: clairberlin/managair:0.6.5
+          name: managair-server
+          resources: {}
+          volumeMounts:
+            - mountPath: "/var/secrets/managair-secret"
+              name: managair-secret
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: managair-secret
+          secret:
+            secretName: managair-secret

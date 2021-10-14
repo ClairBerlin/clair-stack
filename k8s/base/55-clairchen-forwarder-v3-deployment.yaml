@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: clairchen-forwarder-v3
+  name: clairchen-forwarder-v3
+  namespace: clair-berlin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clairchen-forwarder-v3
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: clairchen-forwarder-v3
+    spec:
+      containers:
+        - env:
+            - name: CLAIR_API_ROOT
+              value: "http://ingestair:8888/ingest/v1/"
+            - name: CLAIR_MODE
+              value: "clairchen-forward"
+            - name: CLAIR_TTN_ACCESS_KEY_FILE
+              value: "/var/secrets/clairchen-forwarder-v3-secret/clairchen-forwarder-v3-access-key.txt"
+            - name: CLAIR_TTN_APP_ID
+              value: "clairchen-test"
+            - name: CLAIR_TTN_STACK
+              value: "ttn-v3"
+          image: clairberlin/clairttn:6
+          livenessProbe:
+            exec:
+              command:
+                - /opt/clairttn/healthcheck.sh
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          name: clairchen-forwarder-v3
+          resources: {}
+          volumeMounts:
+            - mountPath: "/var/secrets/clairchen-forwarder-v3-secret"
+              name: clairchen-forwarder-v3-secret
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: clairchen-forwarder-v3-secret
+          secret:
+            secretName: clairchen-forwarder-v3-secret

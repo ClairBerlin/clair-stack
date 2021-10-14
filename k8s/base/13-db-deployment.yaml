@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: db
+  name: db
+  namespace: clair-berlin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: SQL_DATABASE
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: sql-password.txt
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: clair-config-map
+                  key: SQL_USER
+          image: postgres:13.1
+          name: db
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: db-data
+      restartPolicy: Always
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: db-data

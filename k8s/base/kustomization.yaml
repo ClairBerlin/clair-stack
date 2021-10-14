@@ -1,0 +1,59 @@
+resources:
+  - 00-clair-berlin-namespace.yaml
+  - 11-db-pvc.yaml
+  - 12-db-service.yaml
+  - 13-db-deployment.yaml
+  - 22-redis-service.yaml
+  - 23-redis-deployment.yaml
+  - 32-ingestair-service.yaml
+  - 33-ingestair-deployment.yaml
+  - 42-managair-service.yaml
+  - 43-managair-deployment.yaml
+  - 53-clairchen-forwarder-v2-deployment.yaml
+  - 54-ers-forwarder-v2-deployment.yaml
+  - 55-clairchen-forwarder-v3-deployment.yaml
+  - 56-ers-forwarder-v3-deployment.yaml
+  - 72-static-frontend-service.yaml
+  - 73-static-frontend-deployment.yaml
+  - 99-clair-berlin-ingress.yaml
+
+configMapGenerator:
+  - name: clair-config-map
+    namespace: clair-berlin
+    envs:
+      - config.env
+
+secretGenerator:
+  - name: db-secret
+    namespace: clair-berlin
+    files:
+      - secrets/sql-password.txt
+  - name: managair-secret
+    namespace: clair-berlin
+    files:
+      - secrets/managair-secret-key.txt
+      - secrets/sql-password.txt
+      - secrets/sentry-url.txt
+      - secrets/smtp-password.txt
+  - name: ingestair-secret
+    namespace: clair-berlin
+    files:
+      - secrets/ingestair-secret-key.txt
+      - secrets/smtp-password.txt
+      - secrets/sql-password.txt
+  - name: clairchen-forwarder-v2-secret
+    namespace: clair-berlin
+    files:
+      - secrets/clairchen-forwarder-v2-access-key.txt
+  - name: ers-forwarder-v2-secret
+    namespace: clair-berlin
+    files:
+      - secrets/ers-forwarder-v3-access-key.txt
+  - name: clairchen-forwarder-v3-secret
+    namespace: clair-berlin
+    files:
+      - secrets/clairchen-forwarder-v3-access-key.txt
+  - name: ers-forwarder-v3-secret
+    namespace: clair-berlin
+    files:
+      - secrets/ers-forwarder-v3-access-key.txt

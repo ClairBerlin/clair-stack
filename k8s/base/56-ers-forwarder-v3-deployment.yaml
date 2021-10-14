@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ers-forwarder-v3
+  name: ers-forwarder-v3
+  namespace: clair-berlin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ers-forwarder-v3
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ers-forwarder-v3
+    spec:
+      containers:
+        - env:
+            - name: CLAIR_API_ROOT
+              value: "http://ingestair:8888/ingest/v1/"
+            - name: CLAIR_MODE
+              value: "ers-forward"
+            - name: CLAIR_TTN_ACCESS_KEY_FILE
+              value: "/var/secrets/ers-forwarder-v3-secret/ers-forwarder-v3-access-key.txt"
+            - name: CLAIR_TTN_APP_ID
+              value: "elsys-ers-co2"
+            - name: CLAIR_TTN_STACK
+              value: "ttn-v3"
+          image: clairberlin/clairttn:6
+          livenessProbe:
+            exec:
+              command:
+                - /opt/clairttn/healthcheck.sh
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          name: ers-forwarder-v3
+          resources: {}
+          volumeMounts:
+            - mountPath: "/var/secrets/ers-forwarder-v3-secret"
+              name: ers-forwarder-v3-secret
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: ers-forwarder-v3-secret
+          secret:
+            secretName: ers-forwarder-v3-secret
