@@ -113,43 +113,8 @@ services:
       - ingestair_secret_key
       - sql_password
 
-  # For the TTN Stack V2
-  clairchen_forwarder_v2:
-    image: clairberlin/clairttn:6
-    depends_on:
-      - ingestair
-    networks:
-      - frontend
-      - backend
-    secrets:
-      - clairchen_access_key
-    environment:
-      - CLAIR_MODE=clairchen-forward
-      - CLAIR_TTN_APP_ID=clairberlinproto
-      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/clairchen_access_key
-      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
-      - CLAIR_TTN_STACK=ttn-v2
-
-  # For the TTN Stack V2
-  ers_forwarder_v2:
-    image: clairberlin/clairttn:6
-    depends_on:
-      - ingestair
-    networks:
-      - frontend
-      - backend
-    secrets:
-      - ers_access_key
-    environment:
-      - CLAIR_MODE=ers-forward
-      - CLAIR_TTN_APP_ID=clair-berlin-ers-co2
-      - CLAIR_TTN_ACCESS_KEY_FILE=/run/secrets/ers_access_key
-      - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
-      - CLAIR_TTN_STACK=ttn-v2
-
-  # For the TTN Stack V3
   clairchen_forwarder_v3:
-    image: clairberlin/clairttn:6
+    image: clairberlin/clairttn:7
     depends_on:
       - ingestair
     networks:
@@ -164,9 +129,8 @@ services:
       - CLAIR_API_ROOT=http://ingestair:8888/ingest/v1/
       - CLAIR_TTN_STACK=ttn-v3
 
-  # For the TTN Stack V3
   ers_forwarder_v3:
-    image: clairberlin/clairttn:6
+    image: clairberlin/clairttn:7
     depends_on:
       - ingestair
     networks:
@@ -200,14 +164,6 @@ services:
       - backend
 
 secrets:
-  # The access key for the clairberlinproto V2 TTN application.
-  clairchen_access_key:
-    file: secrets/clairchen-access-key.txt
-
-  # The access key for the clair-berlin-ers-co2 V2 TTN application.
-  ers_access_key:
-    file: secrets/ers-access-key.txt
-
   # The access key for the clairchen-test TTN-V3 application.
   clairchen_v3_api_key:
     file: secrets/clairchen-test-ttnv3-apikey.txt

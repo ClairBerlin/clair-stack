@@ -44,7 +44,7 @@ services:
       placement:
         constraints:
           - node.role == manager # For bind-mounts on swarm to work
-
+    
   ingestair:
     image: clairberlin/managair:latest
     environment:
