@@ -68,6 +68,7 @@ services:
       - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password
       - EMAIL_USE_TLS
       - DEFAULT_FROM_EMAIL
+      - HTTPS=on
     secrets:
       - managair_secret_key
       - sql_password
