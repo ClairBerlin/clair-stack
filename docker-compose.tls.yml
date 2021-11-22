@@ -11,11 +11,9 @@ services:
       - '--accesslog=true'
       - '--entryPoints.web.address=:80'
       - '--entryPoints.websecure.address=:443'
-      - '--certificatesResolvers.leresolver.acme.email=jan@jawebada.de'
+      - '--certificatesResolvers.leresolver.acme.email=tg@trusttheadmin.de'
       - '--certificatesResolvers.leresolver.acme.storage=/etc/traefik/acme/acme.json'
-      - '--certificatesResolvers.leresolver.acme.dnsChallenge=true'
-      - '--certificatesResolvers.leresolver.acme.dnsChallenge.provider=netcup'
-      - '--certificatesResolvers.leresolver.acme.caServer=https://acme-v02.api.letsencrypt.org/directory'
+      - '--certificatesResolvers.leresolver.acme.tlsChallenge=true'
     # - '--certificatesResolvers.leresolver.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory'
     ports:
       - target: 443
