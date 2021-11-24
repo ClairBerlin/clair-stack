@@ -65,13 +65,13 @@ services:
       - EMAIL_HOST
       - EMAIL_PORT
       - EMAIL_HOST_USER
-      - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password
+      - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password-v3
       - EMAIL_USE_TLS
       - DEFAULT_FROM_EMAIL
     secrets:
       - managair_secret_key
       - sql_password
-      - smtp_password
+      - smtp_password-v3
       - sentry_url
     deploy:
       labels:
@@ -183,7 +183,7 @@ secrets:
     file: secrets/sql-password.txt
 
   # The password to connecto to the SMTP mail server.
-  smtp_password:
+  smtp_password-v3:
     file: secrets/smtp-password.txt
 
   # The secret URL to report errors to Sentry.io.
