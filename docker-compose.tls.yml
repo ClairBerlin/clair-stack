@@ -45,6 +45,8 @@ services:
         - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
 
   managair_server:
+    environment:
+      - HTTPS=on
     deploy:
       labels:
         - traefik.http.routers.managair-server.tls=true
