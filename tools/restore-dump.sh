@@ -12,7 +12,7 @@ scale_db_services() {
   docker service scale ${CLAIR_STACK_NAME}_managair_server=$replicas ${CLAIR_STACK_NAME}_ingestair=$replicas
 }
 
-dump_db () {
+restore_dump () {
   dump_file=$1
   test -f "$dump_file" || fail_usage "no dump file specified"
   test -n "$SQL_DATABASE" || fail "SQL_DATABASE not set in environment file"
@@ -30,4 +30,4 @@ dump_db () {
 source_env_or_fail $1
 confirm_if_not_default
 shift
-eval_in_docker_context dump_db $*
+eval_in_docker_context restore_dump $*
