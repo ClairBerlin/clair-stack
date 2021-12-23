@@ -144,3 +144,5 @@ cython_debug/
 # Secrets
 secrets/
 !secrets/.keep_me
+clair-secrets/
+clair-secrets.zip
