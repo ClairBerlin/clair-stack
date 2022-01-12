@@ -6,18 +6,18 @@ ROOT_DIR=`dirname $0`
 VALID_FIXTURES="core/fixtures/user-fixtures.json core/fixtures/inventory-fixtures.json core/fixtures/data-fixtures.json"
 
 usage () {
-  echo "usage: $SCRIPT_NAME env_file [fixture]..."
-  echo "if no fixture is specified, all fixtures will be loaded"
-  echo "valid fixtures are:"
+  echo_stderr "usage: $SCRIPT_NAME env_file [fixture]..."
+  echo_stderr "if no fixture is specified, all fixtures will be loaded"
+  echo_stderr "valid fixtures are:"
   for f in $VALID_FIXTURES; do
-    echo $f
+    echo_stderr $f
   done
 }
 
 load_fixtures () {
   fixtures=${*:-$VALID_FIXTURES}
   for fixture in $fixtures; do
-    echo "loading $fixture"
+    echo_stderr "loading $fixture"
 	  docker exec -it $MANAGAIR_CONTAINER_ID python3 manage.py loaddata $fixture
   done
 }

@@ -8,7 +8,7 @@ CLAIR_VOLUMES="managair-data"
 create_clair_volumes () {
   for volume in $CLAIR_VOLUMES; do
     if docker volume inspect $volume > /dev/null 2>&1; then
-      echo "volume $volume exists"
+      echo_stderr "volume $volume exists"
     else
       docker volume create $volume
     fi

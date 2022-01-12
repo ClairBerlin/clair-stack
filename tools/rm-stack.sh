@@ -6,11 +6,11 @@ ROOT_DIR=`dirname $0`
 rm_stack () {
   docker stack rm $CLAIR_STACK_NAME
   while true; do
-    echo "waiting for $CLAIR_STACK_NAME services to stop..."
+    echo_stderr "waiting for $CLAIR_STACK_NAME services to stop..."
     docker ps --filter name=$CLAIR_STACK_NAME | grep -q $CLAIR_STACK_NAME || break
     sleep 1
   done
-  echo "done"
+  echo_stderr "done"
 }
 
 source_env_or_fail $1

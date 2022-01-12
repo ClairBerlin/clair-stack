@@ -12,17 +12,21 @@ CLAIR_STACK_NAME=clair
 # make the script fail if any command fails
 set -e
 
+echo_stderr() {
+  >&2 echo $@
+}
+
 fail () {
   msg=$1
-  test -n "$msg" && echo -e "error: $msg"
+  test -n "$msg" && echo_stderr -e "error: $msg"
   exit 1
 }
 
 # use usage function if defined
 fail_usage () {
   msg=$1
-  test -n "$msg" && echo -e "error: $msg"
-  type usage &> /dev/null && usage || echo "usage: $SCRIPT_NAME env_file"
+  test -n "$msg" && echo_stderr -e "error: $msg"
+  type usage &> /dev/null && usage || echo_stderr "usage: $SCRIPT_NAME env_file"
   exit 1
 }
 
@@ -31,13 +35,13 @@ source_env_or_fail () {
   test -n "$env_file" || fail_usage "no env_file specified"
   test -f $env_file || fail_usage "$env_file is not a file"
 
-  echo "environment file: $env_file"
+  echo_stderr "environment file: $env_file"
 
   . $env_file
 
   for v in $REQUIRED_ENV_VARS; do
     test -n "${!v}" || fail "missing environment variable: $v"
-    echo "$v: ${!v}"
+    echo_stderr "$v: ${!v}"
   done
 }
 

@@ -4,7 +4,7 @@ ROOT_DIR=`dirname $0`
 . $ROOT_DIR/common.sh
 
 usage () {
-  echo "usage: $SCRIPT_NAME env_file [service_name image_name]..."
+  echo_stderr "usage: $SCRIPT_NAME env_file [service_name image_name]..."
 }
 
 update_tasks () {

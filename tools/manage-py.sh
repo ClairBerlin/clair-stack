@@ -4,8 +4,8 @@ ROOT_DIR=`dirname $0`
 . $ROOT_DIR/common.sh
 
 usage () {
-  echo "usage: $SCRIPT_NAME env [-y] arg..."
-  echo "-y: skip confirmation"
+  echo_stderr "usage: $SCRIPT_NAME env [-y] arg..."
+  echo_stderr "-y: skip confirmation"
 }
 
 manage_py () {
