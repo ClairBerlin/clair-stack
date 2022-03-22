@@ -23,7 +23,7 @@ services:
         published: 80
 
   static_frontend:
-    image: clairberlin/website:29
+    image: clairberlin/website:30
     networks:
       - frontend
     deploy:
@@ -35,7 +35,7 @@ services:
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
   managair_server:
-    image: clairberlin/managair:1.0.0
+    image: clairberlin/managair:1.1.0
     command: python manage.py runserver 0.0.0.0:8888
     depends_on:
       - db
@@ -84,7 +84,7 @@ services:
   ingestair:
     # For now, we use the same managair application that also provides the
     # external endpoints. This simplifies sharing of DB models.
-    image: clairberlin/managair:1.0.0
+    image: clairberlin/managair:1.1.0
     command: python manage.py runserver 0.0.0.0:8888
     networks:
       - backend
