@@ -48,6 +48,13 @@ services:
         # middleware redirect
         - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
 
+  static_frontend_como:
+    deploy:
+      labels:
+        - traefik.http.routers.como-frontend.tls=true
+        - traefik.http.routers.como-frontend.tls.domains[0].main=${COMO_DOMAIN}
+        - traefik.http.routers.como-frontend.tls.certresolver=leresolver
+
   managair_server:
     environment:
       - HTTPS=on
