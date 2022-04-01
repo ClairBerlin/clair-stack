@@ -34,6 +34,18 @@ services:
         - traefik.http.routers.clair-frontend.priority=10
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
+  static_frontend_como:
+    image: clairberlin/como-website:4
+    networks:
+      - frontend
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=clair_frontend
+        - traefik.http.routers.como-frontend.rule=Host(`${COMO_DOMAIN}`)
+        - traefik.http.routers.como-frontend.priority=10
+        - traefik.http.services.como-frontend.loadbalancer.server.port=80
+
   managair_server:
     image: clairberlin/managair:1.1.0
     command: python manage.py runserver 0.0.0.0:8888
@@ -61,7 +73,7 @@ services:
       - DB_MIGRATE=${MANAGAIR_DB_MIGRATE-false}
       - COLLECT_STATIC_FILES=${MANAGAIR_COLLECT_STATIC_FILES-false}
       - NODE_FIDELITY=1
-      - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} localhost 127.0.0.1 [::1]
+      - DJANGO_ALLOWED_HOSTS=${CLAIR_DOMAIN} ${COMO_DOMAIN} localhost 127.0.0.1 [::1]
       - EMAIL_HOST
       - EMAIL_PORT
       - EMAIL_HOST_USER
