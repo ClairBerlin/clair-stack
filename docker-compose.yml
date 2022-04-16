@@ -107,6 +107,7 @@ services:
     image: clairberlin/managair:1.2.0mp
     command: python manage.py runserver 0.0.0.0:8888
     networks:
+      - frontend
       - backend
     depends_on:
       - db
@@ -129,6 +130,7 @@ services:
       - NODE_FIDELITY=0
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
       - EMAIL_HOST_PASSWORD="" # Ingestair does not need to send emails.
+      - IOTDP_INTEGRATION
       - SP_SUPABASE_URL
       - SP_LOGIN_ENDPOINT
       - SP_SENSOR_ENDPOINT
