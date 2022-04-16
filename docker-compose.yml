@@ -80,6 +80,14 @@ services:
       - EMAIL_HOST_PASSWORD_FILE=/run/secrets/smtp_password-v3
       - EMAIL_USE_TLS
       - DEFAULT_FROM_EMAIL
+      - SP_SUPABASE_URL="" # For the ingestair instance only
+      - SP_LOGIN_ENDPOINT="" # For the ingestair instance only
+      - SP_SENSOR_ENDPOINT="" # For the ingestair instance only
+      - SP_RECORDS_ENDPOINT="" # For the ingestair instance only
+      - SP_API_KEY="" # For the ingestair instance only
+      - SP_AUTH_TOKEN="" # For the ingestair instance only
+      - SP_LOGIN_EMAIL="" # For the ingestair instance only
+      - SP_LOGIN_PWD="" # For the ingestair instance only
     secrets:
       - managair_secret_key
       - sql_password
@@ -121,9 +129,20 @@ services:
       - NODE_FIDELITY=0
       - DJANGO_ALLOWED_HOSTS=ingestair localhost 127.0.0.1 [::1]
       - EMAIL_HOST_PASSWORD="" # Ingestair does not need to send emails.
+      - SP_SUPABASE_URL
+      - SP_LOGIN_ENDPOINT
+      - SP_SENSOR_ENDPOINT
+      - SP_RECORDS_ENDPOINT
+      - SP_API_KEY_FILE=/run/secrets/stadtpuls_api_key
+      - SP_AUTH_TOKEN_FILE=/run/secrets/stadtpuls_auth_token
+      - SP_LOGIN_EMAIL
+      - SP_LOGIN_PWD_FILE=/run/secrets/stadtpuls_login_pwd
     secrets:
       - ingestair_secret_key
       - sql_password
+      - stadtpuls_api_key
+      - stadtpuls_auth_token
+      - stadtpuls_login_pwd
 
   clairchen_forwarder_v3:
     image: clairberlin/clairttn:7mp
@@ -202,6 +221,18 @@ secrets:
   sentry_url:
     file: secrets/sentry-url.txt
 
+  # Secrets for Stadpuls integration. Must match the endpoints
+  # configured via the environment (staging or prod)
+  stadtpuls_api_key:
+    file: secrets/stadtpuls-api-key.txt
+
+  stadtpuls_login_pwd:
+    file: secrets/stadtpuls-login-pwd.txt
+  
+  stadtpuls_auth_token:
+    file: secrets/stadtpuls-auth-token.txt
+
+  
 volumes:
   managair-data:
     external: true
