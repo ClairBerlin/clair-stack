@@ -16,13 +16,13 @@ services:
       - backend
 
   managair_server:
-    volumes:
-      # Mount the local source code folder for quick iterations.
-      # See: https://www.docker.com/blog/containerized-python-development-part-3/
-      - type: bind
-        source: ./managair/
-        target: /code
-        # consistency: delegated
+    # volumes:
+    #   # Mount the local source code folder for quick iterations.
+    #   # See: https://www.docker.com/blog/containerized-python-development-part-3/
+    #   - type: bind
+    #     source: ./managair/
+    #     target: /code
+    #     # consistency: delegated
     ports:
       # For the application's endpoints
       - target: 8888
