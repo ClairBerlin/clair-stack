@@ -178,11 +178,23 @@ Upon import, the DBMS enforces constraints on the uniqueness of samples - you ca
 
 ### Restart a single service
 
-_TODO_
+There's currently no tool to restart a single service. However, you can scale a service down and up again like this:
+
+```bash
+docker context use staging
+docker service scale clair_ers_forwarder_v3=0
+docker service scale clair_ers_forwarder_v3=1
+```
 
 ### Update a service
 
-_TODO_
+Individual services can be updated using the `update-services.sh` tool. It takes pairs of `service_name` and `image_name` as arguments. `service_name` is the name of the service as defined in [the Compose file](docker-compose.yml).
+
+Example:
+
+```bash
+tools/update-services.sh environments/dev.env managair_server clairberlin/managair:2.0.0 ingestair clairberlin/managair:2.0.0
+```
 
 ## References
 
