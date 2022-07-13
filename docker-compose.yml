@@ -23,7 +23,7 @@ services:
         published: 80
 
   static_frontend:
-    image: clairberlin/website:35
+    image: clairberlin/website:36
     networks:
       - frontend
     deploy:
@@ -35,7 +35,7 @@ services:
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
   static_frontend_como:
-    image: clairberlin/como-website:14
+    image: clairberlin/como-website:15
     networks:
       - frontend
     deploy:
