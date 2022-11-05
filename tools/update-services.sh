@@ -12,7 +12,6 @@ update_tasks () {
     service_name=$1
     image_name=$2
     test -n "$service_name" && test -n "$image_name" || fail_usage
-    docker login
     docker pull $image_name
     full_service_name=${CLAIR_STACK_NAME}_${service_name}
     docker service update --image $image_name $full_service_name --with-registry-auth
