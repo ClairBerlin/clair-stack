@@ -22,18 +22,8 @@ services:
     configs:
       - source: traefik-conf-v1
         target: /etc/traefik/traefik_conf.yaml
-    secrets:
-      - netcup_api_key
-      - netcup_api_password
-      - netcup_customer_number
     volumes:
       - "certificates:/etc/traefik/acme"
-    environment:
-      - NETCUP_POLLING_INTERVAL=30
-      - NETCUP_PROPAGATION_TIMEOUT=1200
-      - NETCUP_API_KEY_FILE=/run/secrets/netcup_api_key
-      - NETCUP_API_PASSWORD_FILE=/run/secrets/netcup_api_password
-      - NETCUP_CUSTOMER_NUMBER_FILE=/run/secrets/netcup_customer_number
 
   static_frontend:
     deploy:
@@ -63,15 +53,6 @@ services:
         - traefik.http.routers.managair-server.tls=true
         - traefik.http.routers.managair-server.tls.domains[0].main=${CLAIR_DOMAIN}
         - traefik.http.routers.managair-server.tls.certresolver=leresolver
-
-secrets:
-  # The password for the clair-berlin netcup account
-  netcup_api_key:
-    file: secrets/netcup-api-key.txt
-  netcup_api_password:
-    file: secrets/netcup-api-password.txt
-  netcup_customer_number:
-    file: secrets/netcup-customer-number.txt
 
 volumes:
   certificates:
