@@ -35,7 +35,7 @@ services:
         - traefik.http.services.clair-frontend.loadbalancer.server.port=80
 
   static_frontend_como:
-    image: clairberlin/como-website:26
+    image: clairberlin/como-website:35
     networks:
       - frontend
     deploy:
@@ -47,7 +47,7 @@ services:
         - traefik.http.services.como-frontend.loadbalancer.server.port=80
 
   managair_server:
-    image: clairberlin/managair:1.2.0mp
+    image: clairberlin/managair:2.0.0b
     command: python manage.py runserver 0.0.0.0:8888
     depends_on:
       - db
@@ -230,11 +230,10 @@ secrets:
 
   stadtpuls_login_pwd:
     file: secrets/stadtpuls-login-pwd.txt
-  
+
   stadtpuls_auth_token:
     file: secrets/stadtpuls-auth-token.txt
 
-  
 volumes:
   managair-data:
     external: true
